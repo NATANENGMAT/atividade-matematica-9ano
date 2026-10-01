@@ -95,6 +95,12 @@
           </svg>
           <span>Atualizar</span>
         </button>
+        <button id="btnConfigProf" onclick="abrirConfigProf()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-white" title="Configurar Supabase">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+        </button>
         <button id="btnSair" onclick="bloquearPainel()" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/30 text-rose-200 transition-all flex items-center gap-1" title="Sair do painel">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
           Sair
@@ -260,14 +266,18 @@
       </div>
 
       <!-- Imagem do Cálculo da Questão -->
-      <div class="bg-slate-950 rounded-2xl p-2 flex-grow max-h-[50vh] flex items-center justify-center overflow-hidden relative">
-        <img id="modalImgCalculos" src="" alt="Cálculo da Questão" class="max-h-[48vh] max-w-full rounded-xl object-contain" />
-        <div id="semFotoAviso" class="text-slate-400 text-xs hidden">Nenhuma foto registrada para esta questão.</div>
+      <div class="bg-slate-950 rounded-2xl p-2 flex-grow min-h-[220px] max-h-[50vh] flex items-center justify-center overflow-hidden relative">
+        <img id="modalImgCalculos" src="" alt="Cálculo da Questão" class="max-h-[48vh] max-w-full rounded-xl object-contain" onerror="aoFalharCarregamentoFoto(this)" />
+        <div id="semFotoAviso" class="text-slate-400 text-xs hidden text-center px-4">Nenhuma foto registrada para esta questão.</div>
+        <div id="erroFotoAviso" class="text-amber-300 text-xs hidden text-center px-4 py-3 space-y-1">
+          <p class="font-bold">⚠️ Foto indisponível no link registrado.</p>
+          <p class="text-[11px] text-slate-400">O endereço da imagem na nuvem falhou ao carregar. Realize um novo envio no modo teste para atualizar.</p>
+        </div>
       </div>
 
       <!-- Rodapé do Modal -->
       <div class="flex items-center justify-between pt-2 flex-shrink-0 text-xs">
-        <a id="btnAbrirFotoAba" href="" target="_blank" class="font-semibold text-indigo-600 hover:text-indigo-800 underline">
+        <a id="btnAbrirFotoAba" href="#" onclick="abrirFotoOriginal(event)" class="font-semibold text-indigo-600 hover:text-indigo-800 underline">
           Abrir foto original ↗
         </a>
         <div class="flex items-center gap-2">
@@ -275,6 +285,33 @@
           <button type="button" id="btnQuestaoProxima" onclick="navegarQuestaoModal(1)" class="px-3 py-1.5 rounded-lg border border-slate-300 font-bold hover:bg-slate-100">Próxima →</button>
           <button type="button" onclick="fecharModalFoto()" class="px-3.5 py-1.5 rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-900">Fechar</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIGURAÇÃO DO SUPABASE -->
+  <div id="modalConfigSupabaseProf" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-bold text-slate-800 text-sm">Configuração da Nuvem Supabase</h3>
+        <button onclick="document.getElementById('modalConfigSupabaseProf').classList.add('hidden')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center">✕</button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Project URL:</label>
+          <input id="cfgUrlProf" type="text" class="w-full p-2.5 border border-slate-300 rounded-xl font-mono text-xs bg-slate-50 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="https://caluzuxcgyzivmjobkqj.supabase.co" />
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Anon / Public Key:</label>
+          <input id="cfgKeyProf" type="text" class="w-full p-2.5 border border-slate-300 rounded-xl font-mono text-xs bg-slate-50 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Cole sua chave anon do Supabase aqui..." />
+        </div>
+        <p class="text-slate-500 text-[11px] leading-relaxed">
+          Copie estes valores no painel do Supabase em <strong>Project Settings → API</strong>.
+        </p>
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="document.getElementById('modalConfigSupabaseProf').classList.add('hidden')" class="flex-1 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-600 text-xs hover:bg-slate-50">Cancelar</button>
+        <button onclick="salvarConfigProf()" class="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow">Salvar e Conectar</button>
       </div>
     </div>
   </div>
@@ -287,7 +324,7 @@
   <!-- SCRIPT DE GERENCIAMENTO -->
   <script>
     // Configurações do Supabase
-    const SUPABASE_URL = "https://jwmnvkcczayhqzeblyjl.supabase.co";
+    const SUPABASE_URL = "https://caluzuxcgyzivmjobkqj.supabase.co";
     const SUPABASE_KEY = "sb_publishable_PmIY1yelZilcGsIPT1ER_Q_FRkeObsY";
 
     function obterConfig() {
@@ -662,13 +699,15 @@
 
       const img = document.getElementById('modalImgCalculos');
       const aviso = document.getElementById('semFotoAviso');
+      const erroAviso = document.getElementById('erroFotoAviso');
       const btnLink = document.getElementById('btnAbrirFotoAba');
+
+      if (erroAviso) erroAviso.classList.add('hidden');
 
       if (fotoUrl && fotoUrl !== 'arquivo_anexado_com_sucesso' && fotoUrl !== 'foto_anexada_local') {
         img.src = fotoUrl;
         img.classList.remove('hidden');
         aviso.classList.add('hidden');
-        btnLink.href = fotoUrl;
         btnLink.classList.remove('hidden');
       } else {
         img.src = '';
@@ -699,6 +738,28 @@
       }
     };
 
+    window.aoFalharCarregamentoFoto = function(img) {
+      if (img) img.classList.add('hidden');
+      const erroAviso = document.getElementById('erroFotoAviso');
+      if (erroAviso) erroAviso.classList.remove('hidden');
+    };
+
+    window.abrirFotoOriginal = function(e) {
+      if (e) e.preventDefault();
+      const img = document.getElementById('modalImgCalculos');
+      const src = img ? img.src : '';
+      if (!src) return;
+
+      if (src.startsWith('data:')) {
+        const win = window.open('');
+        if (win) {
+          win.document.write(`<body style="margin:0;background:#0b0f19;display:flex;align-items:center;justify-content:center;min-height:100vh;"><img src="${src}" style="max-width:100%;max-height:100vh;object-fit:contain;" /></body>`);
+        }
+      } else {
+        window.open(src, '_blank');
+      }
+    };
+
     window.navegarQuestaoModal = function(delta) {
       exibirQuestaoGaleria(questaoGaleriaAtual + delta);
     };
@@ -710,13 +771,34 @@
       } else {
         document.getElementById('modalNomeAlunoFoto').textContent = nome;
         document.getElementById('modalImgCalculos').src = url;
-        document.getElementById('btnAbrirFotoAba').href = url;
         document.getElementById('modalFotoAluno').classList.remove('hidden');
       }
     };
 
     window.fecharModalFoto = function() {
       document.getElementById('modalFotoAluno').classList.add('hidden');
+    };
+
+    window.abrirConfigProf = function() {
+      const c = obterConfig();
+      const u = document.getElementById('cfgUrlProf');
+      const k = document.getElementById('cfgKeyProf');
+      if (u) u.value = c.SUPABASE_URL || '';
+      if (k) k.value = c.SUPABASE_ANON_KEY || '';
+      document.getElementById('modalConfigSupabaseProf').classList.remove('hidden');
+    };
+
+    window.salvarConfigProf = function() {
+      const u = document.getElementById('cfgUrlProf').value.trim();
+      const k = document.getElementById('cfgKeyProf').value.trim();
+      if (!u || !k) {
+        alert('Por favor, preencha a URL e a Chave Anon.');
+        return;
+      }
+      localStorage.setItem('config_supabase_elisa_bessa', JSON.stringify({ SUPABASE_URL: u, SUPABASE_ANON_KEY: k }));
+      document.getElementById('modalConfigSupabaseProf').classList.add('hidden');
+      mostrarToast('Configurações salvas! Recarregando...');
+      setTimeout(() => location.reload(), 600);
     };
 
     // COPIAR LISTA DE PENDENTES PARA WHATSAPP
