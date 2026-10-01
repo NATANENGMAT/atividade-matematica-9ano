@@ -338,6 +338,44 @@
     const cfg = obterConfig();
     const sb = window.supabase ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY) : null;
 
+    // IndexedDB para carregar fotos armazenadas localmente
+    const DB_NAME = 'CETI_MATEMATICA_DB';
+    const DB_VERSION = 1;
+
+    function abrirDB() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) return resolve(null);
+        try {
+          const request = indexedDB.open(DB_NAME, DB_VERSION);
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('fotos')) {
+              db.createObjectStore('fotos');
+            }
+          };
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => resolve(null);
+        } catch(e) {
+          resolve(null);
+        }
+      });
+    }
+
+    async function obterFotoLocal(chave) {
+      try {
+        const db = await abrirDB();
+        if (!db) return null;
+        return new Promise((resolve) => {
+          const tx = db.transaction('fotos', 'readonly');
+          const req = tx.objectStore('fotos').get(chave);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => resolve(null);
+        });
+      } catch(e) {
+        return null;
+      }
+    }
+
     // Listas oficiais completas
     const ROSTER = {
       '9º 1': [
@@ -704,7 +742,25 @@
 
       if (erroAviso) erroAviso.classList.add('hidden');
 
-      if (fotoUrl && fotoUrl !== 'arquivo_anexado_com_sucesso' && fotoUrl !== 'foto_anexada_local') {
+      if (fotoUrl && fotoUrl.startsWith('idb:')) {
+        const chaveIdb = fotoUrl.replace('idb:', '');
+        img.src = '';
+        img.classList.add('hidden');
+        aviso.textContent = 'Carregando foto dos cálculos...';
+        aviso.classList.remove('hidden');
+        btnLink.classList.add('hidden');
+
+        obterFotoLocal(chaveIdb).then((base64) => {
+          if (base64) {
+            img.src = base64;
+            img.classList.remove('hidden');
+            aviso.classList.add('hidden');
+            btnLink.classList.remove('hidden');
+          } else {
+            aviso.textContent = 'Foto gravada localmente no dispositivo do estudante.';
+          }
+        });
+      } else if (fotoUrl && fotoUrl !== 'arquivo_anexado_com_sucesso' && fotoUrl !== 'foto_anexada_local') {
         img.src = fotoUrl;
         img.classList.remove('hidden');
         aviso.classList.add('hidden');
