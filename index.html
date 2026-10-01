@@ -607,6 +607,61 @@
     }
 
     // =========================================================================
+    // ARMAZENAMENTO ROBUSTO INDEXEDDB (SEM LIMITE DE COTA DE 5MB DO SAFARI)
+    // =========================================================================
+    const DB_NAME = 'CETI_MATEMATICA_DB';
+    const DB_VERSION = 1;
+
+    function abrirDB() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) return resolve(null);
+        try {
+          const request = indexedDB.open(DB_NAME, DB_VERSION);
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('fotos')) {
+              db.createObjectStore('fotos');
+            }
+          };
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => resolve(null);
+        } catch(e) {
+          resolve(null);
+        }
+      });
+    }
+
+    async function salvarFotoLocal(chave, dadoBase64) {
+      try {
+        const db = await abrirDB();
+        if (!db) return false;
+        return new Promise((resolve) => {
+          const tx = db.transaction('fotos', 'readwrite');
+          tx.objectStore('fotos').put(dadoBase64, chave);
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => resolve(false);
+        });
+      } catch(e) {
+        return false;
+      }
+    }
+
+    async function obterFotoLocal(chave) {
+      try {
+        const db = await abrirDB();
+        if (!db) return null;
+        return new Promise((resolve) => {
+          const tx = db.transaction('fotos', 'readonly');
+          const req = tx.objectStore('fotos').get(chave);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => resolve(null);
+        });
+      } catch(e) {
+        return null;
+      }
+    }
+
+    // =========================================================================
     // LISTAS OFICIAIS DE ALUNOS POR TURMA (ORDEM E GRAFIA EXATA)
     // =========================================================================
     const ALUNOS_POR_TURMA = {
@@ -1270,7 +1325,7 @@
 
       // Compactação automática no cliente para uploads ultrarrápidos no celular
       try {
-        const otimizado = await comprimirImagemClient(file, 1600, 0.82);
+        const otimizado = await comprimirImagemClient(file, 1280, 0.72);
         fotosOtimizadas[`q${numQuestao}`] = otimizado;
       } catch (err) {
         fotosOtimizadas[`q${numQuestao}`] = file;
@@ -1580,13 +1635,29 @@
             }
           }
 
-          // Se não tiver gerado URL na nuvem (ou se for teste local), utiliza o Base64 DataURL
-          // Isso garante 100% que a foto NUNCA ficará com ícone quebrado!
-          if (!urlFotoFinal) {
-            urlFotoFinal = fotosBase64[`q${i}`] || '';
+          const chaveIdb = `foto_${turmaCodigo}_${alunoPrimeiroNome}_q${i}`;
+          const base64Foto = fotosBase64[`q${i}`] || '';
+
+          // Salva no IndexedDB local (capacidade de centenas de MB no Safari/Android)
+          if (base64Foto) {
+            try {
+              await salvarFotoLocal(chaveIdb, base64Foto);
+            } catch (eIdb) {
+              console.warn(`Aviso ao salvar foto Q${i} no IndexedDB:`, eIdb);
+            }
           }
 
-          fotosUrlsMap[`q${i}`] = urlFotoFinal;
+          // Se tiver URL da nuvem, armazena a URL HTTP.
+          // Se não tiver (modo local/sem storage), armazena a referência leve do IndexedDB.
+          // JAMAIS salva strings Base64 cruas no fotosUrlsMap ou localStorage!
+          if (urlFotoFinal) {
+            fotosUrlsMap[`q${i}`] = urlFotoFinal;
+          } else if (base64Foto) {
+            fotosUrlsMap[`q${i}`] = `idb:${chaveIdb}`;
+          } else {
+            fotosUrlsMap[`q${i}`] = '';
+          }
+
           fotosEnviadas++;
         }
 
@@ -1605,7 +1676,7 @@
           aluno_nome: aluno,
           respostas_parte1: respP1,
           respostas_parte2: respP2,
-          fotos_urls: fotosUrlsMap, // JSONB com o mapa de fotos das 10 questões
+          fotos_urls: fotosUrlsMap, // JSONB leve com URLs ou chaves IndexedDB
           protocolo: protocolo
         };
 
@@ -1651,13 +1722,17 @@
           await new Promise(r => setTimeout(r, 1200));
         }
 
-        // Sucesso! Grava chave local de envio
-        localStorage.setItem(`envio_${turma}_${aluno}`, JSON.stringify({
-          protocolo,
-          data: dataFormatada,
-          respostas: respostasEstudante,
-          fotos_urls: fotosUrlsMap
-        }));
+        // Sucesso! Grava chave local de envio com proteção try/catch (nunca estoura cota de 5MB)
+        try {
+          localStorage.setItem(`envio_${turma}_${aluno}`, JSON.stringify({
+            protocolo,
+            data: dataFormatada,
+            respostas: respostasEstudante,
+            fotos_urls: fotosUrlsMap
+          }));
+        } catch (eStorage) {
+          console.warn("Aviso ao salvar no localStorage (ignorado com segurança):", eStorage);
+        }
 
         barraProgressoEnvio.style.width = '100%';
         msgLoadingStatus.textContent = 'Envio finalizado com sucesso!';
