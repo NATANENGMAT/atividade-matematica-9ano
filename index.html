@@ -907,7 +907,8 @@
     // CONTROLE E VALIDAÇÃO ESTRITA DE PRAZO (01/10/2026 - 08:00 às 23:59)
     // =========================================================================
     function verificarJanelaPrazo() {
-      if (modoTesteAtivo) {
+      const alunoAtual = typeof selectAluno !== 'undefined' && selectAluno ? selectAluno.value : '';
+      if (modoTesteAtivo || alunoAtual === 'NATANAEL MELHOR ALUNO') {
         return {
           permitido: true,
           estado: 'modo_teste',
@@ -943,16 +944,20 @@
     }
 
     function atualizarBannerPrazo() {
+      const alunoAtual = typeof selectAluno !== 'undefined' && selectAluno ? selectAluno.value : '';
+      const isTestando = modoTesteAtivo || alunoAtual === 'NATANAEL MELHOR ALUNO';
       const infoPrazo = verificarJanelaPrazo();
       const banner = document.getElementById('bannerPrazo');
       const texto = document.getElementById('textoPrazo');
       const badgeTeste = document.getElementById('badgeModoTeste');
       const btnEnviar = document.getElementById('btnEnviarAtividade');
 
-      if (modoTesteAtivo) {
+      if (isTestando) {
         badgeTeste.classList.remove('hidden');
         banner.className = 'bg-indigo-600 text-white px-4 py-2.5 border-b border-indigo-700 text-xs sm:text-sm font-medium';
-        texto.textContent = 'MODO DE TESTE ATIVO: O limite de horário está suspenso para testes pelo professor.';
+        texto.textContent = alunoAtual === 'NATANAEL MELHOR ALUNO'
+          ? 'MODO PROFESSOR ATIVO: Aluno de teste selecionado (NATANAEL MELHOR ALUNO). Envio liberado para testes.'
+          : 'MODO DE TESTE ATIVO: O limite de horário está suspenso para testes pelo professor.';
         document.getElementById('lblModoTeste').textContent = 'Modo Teste (ON)';
       } else {
         badgeTeste.classList.add('hidden');
@@ -971,7 +976,7 @@
       }
 
       // Se prazo fechado e não em modo teste, bloqueia o botão de envio
-      if (!infoPrazo.permitido && !modoTesteAtivo) {
+      if (!infoPrazo.permitido && !isTestando) {
         btnEnviar.disabled = true;
         btnEnviar.title = infoPrazo.mensagem;
       }
@@ -1135,9 +1140,11 @@
     selectAluno.addEventListener('change', async (e) => {
       const aluno = e.target.value;
       const turma = selectTurma.value;
+      atualizarBannerPrazo();
       if (turma && aluno) {
         await checarEnvioDuplicado(turma, aluno);
       }
+      atualizarBannerPrazo();
       atualizarProgresso();
     });
 
@@ -1158,6 +1165,16 @@
       const chaveCache = `envio_${turma}_${aluno}`;
       if (localStorage.getItem(chaveCache)) {
         jaEnviouAnteriormente = true;
+        if (aluno === 'NATANAEL MELHOR ALUNO' || modoTesteAtivo) {
+          statusVerificacaoAluno.className = 'mt-4 p-3.5 rounded-xl text-xs sm:text-sm bg-indigo-50 text-indigo-900 border border-indigo-200';
+          statusVerificacaoAluno.innerHTML = `
+            <div class="font-bold text-indigo-800 flex items-center gap-1.5">
+              <span>🔧 Homologação / Teste do Professor:</span>
+            </div>
+            <p class="text-xs text-indigo-700 mt-0.5">Aluno de teste <strong>${aluno}</strong> (${turma}). Envio anterior detectado, mas reenvio liberado para testes.</p>
+          `;
+          return;
+        }
         exibirMensagemDuplicado(aluno, turma, "Neste dispositivo");
         return;
       }
@@ -1186,6 +1203,16 @@
 
           if (data) {
             jaEnviouAnteriormente = true;
+            if (aluno === 'NATANAEL MELHOR ALUNO' || modoTesteAtivo) {
+              statusVerificacaoAluno.className = 'mt-4 p-3.5 rounded-xl text-xs sm:text-sm bg-indigo-50 text-indigo-900 border border-indigo-200';
+              statusVerificacaoAluno.innerHTML = `
+                <div class="font-bold text-indigo-800 flex items-center gap-1.5">
+                  <span>🔧 Homologação / Teste do Professor:</span>
+                </div>
+                <p class="text-xs text-indigo-700 mt-0.5">Aluno de teste <strong>${aluno}</strong> (${turma}). Envio anterior detectado no banco, mas reenvio liberado para testes.</p>
+              `;
+              return;
+            }
             const dataEnvioFormatada = (data.criado_em || data.created_at) ? new Date(data.criado_em || data.created_at).toLocaleString('pt-BR') : 'Horário registrado';
             exibirMensagemDuplicado(aluno, turma, dataEnvioFormatada, data.protocolo);
             return;
@@ -1412,7 +1439,8 @@
         }
       }
 
-      if (jaEnviouAnteriormente) {
+      const alunoAtual = selectAluno ? selectAluno.value : '';
+      if (jaEnviouAnteriormente && alunoAtual !== 'NATANAEL MELHOR ALUNO' && !modoTesteAtivo) {
         pendencias.push('ATENÇÃO: Este aluno já enviou a atividade anteriormente (envio único)');
       }
 
@@ -1566,9 +1594,20 @@
         };
 
         if (supabaseClient) {
-          let { error: insertError } = await supabaseClient
-            .from('envios_atividade')
-            .insert([payloadEnvios]);
+          const isTestAluno = (aluno === 'NATANAEL MELHOR ALUNO' || modoTesteAtivo);
+          let insertError = null;
+
+          if (isTestAluno) {
+            const upRes = await supabaseClient
+              .from('envios_atividade')
+              .upsert([payloadEnvios], { onConflict: 'turma,aluno_nome' });
+            insertError = upRes.error;
+          } else {
+            const inRes = await supabaseClient
+              .from('envios_atividade')
+              .insert([payloadEnvios]);
+            insertError = inRes.error;
+          }
 
           if (insertError) {
             console.warn("Tentando fallback na tabela atividades_respostas:", insertError.message);
@@ -1582,9 +1621,9 @@
               user_agent: navigator.userAgent
             };
 
-            const fallbackRes = await supabaseClient
-              .from('atividades_respostas')
-              .insert([payloadFallback]);
+            const fallbackRes = isTestAluno
+              ? await supabaseClient.from('atividades_respostas').upsert([payloadFallback], { onConflict: 'turma,aluno' })
+              : await supabaseClient.from('atividades_respostas').insert([payloadFallback]);
 
             if (!fallbackRes.error) {
               insertError = null;
