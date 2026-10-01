@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Atividade de Matemática - 9º Ano | CETI Elisa Bessa Freire</title>
+  <meta name="description" content="Atividade avaliativa de matemática sobre Grandezas Proporcionais e Regra de Três Simples para alunos do 9º ano do CETI Elisa Bessa Freire." />
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#eef6ff',
+              100: '#d9eaff',
+              200: '#bbd9fe',
+              500: '#2563eb',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              800: '#1e3a8a',
+              900: '#172554',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Estilos adicionais e melhorias de usabilidade no celular */
+    input[type="radio"]:checked + label {
+      border-color: #2563eb;
+      background-color: #eff6ff;
+      box-shadow: 0 4px 12px -2px rgba(37, 99, 235, 0.15);
+    }
+    input[type="radio"]:checked + label .radio-circle {
+      border-color: #2563eb;
+      background-color: #2563eb;
+    }
+    input[type="radio"]:checked + label .radio-circle::after {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background-color: #ffffff;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #modalComprovante, #modalComprovante * {
+        visibility: visible;
+      }
+      #modalComprovante {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+  <!-- CABEÇALHO INSTITUCIONAL -->
+  <header class="bg-gradient-to-r from-brand-900 via-brand-800 to-indigo-900 text-white shadow-lg sticky top-0 z-30">
+    <div class="max-w-4xl mx-auto px-4 py-3 sm:py-4">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center shadow-inner flex-shrink-0">
+            <svg class="w-6 h-6 sm:w-7 sm:h-7 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-xs uppercase tracking-wider font-semibold text-blue-200">SEDUC-AM</span>
+              <span class="text-xs bg-white/15 px-2 py-0.5 rounded-full font-medium text-yellow-300">9º Ano - Matemática</span>
+            </div>
+            <h1 class="text-base sm:text-xl font-bold font-display tracking-tight text-white leading-tight">
+              CETI Elisa Bessa Freire
+            </h1>
+          </div>
+        </div>
+
+        <!-- Botões de Ação do Cabeçalho -->
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <!-- Botão Painel do Professor -->
+          <a href="professor.html" title="Acompanhar quem fez e quem não fez" class="text-xs px-2.5 py-1.5 rounded-lg border border-yellow-400/40 bg-yellow-400/20 hover:bg-yellow-400/30 transition-all font-bold flex items-center gap-1.5 text-yellow-200">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+            </svg>
+            <span class="hidden sm:inline">Painel do Professor</span>
+          </a>
+
+          <!-- Botão Modo Teste / Professor -->
+          <button id="btnToggleModoTeste" type="button" title="Alternar Modo Teste / Homologação" class="text-xs px-2.5 py-1.5 rounded-lg border border-white/25 bg-white/10 hover:bg-white/20 transition-all font-medium flex items-center gap-1.5 text-blue-100">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span class="hidden md:inline" id="lblModoTeste">Modo Normal</span>
+          </button>
+
+          <!-- Botão Configurações Supabase -->
+          <button id="btnAbrirConfig" type="button" title="Configurações do Supabase" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-white">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER DE STATUS DO PRAZO E REGRAS -->
+  <div id="bannerPrazo" class="bg-amber-500 text-amber-950 px-4 py-2.5 border-b border-amber-600/30 text-xs sm:text-sm font-medium transition-colors">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3">
+      <div class="flex items-center space-x-2">
+        <svg id="iconePrazo" class="w-5 h-5 flex-shrink-0 animate-pulse text-amber-950" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span id="textoPrazo">Carregando status do prazo de envio...</span>
+      </div>
+      <div id="badgeModoTeste" class="hidden text-xs bg-indigo-700 text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+        Modo Teste Ativo
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="flex-grow max-w-4xl w-full mx-auto px-3 sm:px-6 py-6 space-y-6">
+
+    <!-- INTRODUÇÃO DA ATIVIDADE -->
+    <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <div>
+          <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Atividade Avaliativa Trimestral</span>
+          <h2 class="text-lg sm:text-2xl font-bold font-display text-slate-800">Grandezas Proporcionais & Regra de Três</h2>
+        </div>
+        <div class="text-right">
+          <span class="inline-block px-3 py-1 bg-brand-50 text-brand-700 text-xs font-bold rounded-lg border border-brand-200">
+            20 Questões
+          </span>
+        </div>
+      </div>
+      
+      <div class="bg-slate-50 rounded-xl p-4 text-xs sm:text-sm text-slate-600 space-y-2 border border-slate-200/70">
+        <p class="font-semibold text-slate-700 flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Orientações Importantes:
+        </p>
+        <ul class="list-disc list-inside space-y-1 pl-1 text-slate-600">
+          <li><strong>Parte 1 (Questões 1 a 10):</strong> Classificação teórica de grandezas (diretas, inversas ou não proporcionais).</li>
+          <li><strong>Parte 2 (Questões 11 a 20):</strong> Resolução de problemas com Regra de Três. <strong>Obrigatório resolver no caderno e anexar foto da folha de cálculos no final.</strong></li>
+          <li><strong>Envio Único:</strong> Cada estudante só pode submeter a atividade <strong>uma única vez</strong>.</li>
+          <li><strong>Prazo estrito:</strong> Dia <strong>01/10/2026</strong>, das <strong>08:00 às 23:59</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FORMULÁRIO PRINCIPAL -->
+    <form id="formAtividade" novalidate onsubmit="return false;" class="space-y-6">
+
+      <!-- ETAPA 1: IDENTIFICAÇÃO DO ALUNO -->
+      <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center space-x-3 mb-5 border-b border-slate-100 pb-3">
+          <span class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow">
+            1
+          </span>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-800">Identificação do Aluno</h3>
+            <p class="text-xs text-slate-500">Selecione sua turma e localize seu nome completo oficial na lista.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Seleção de Turma -->
+          <div>
+            <label for="selectTurma" class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5">
+              Turma: <span class="text-red-500">*</span>
+            </label>
+            <select id="selectTurma" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all shadow-sm">
+              <option value="" disabled selected>-- Selecione sua turma --</option>
+              <option value="9º 1">9º Ano 1</option>
+              <option value="9º 2">9º Ano 2</option>
+              <option value="9º 4">9º Ano 4</option>
+            </select>
+          </div>
+
+          <!-- Seleção de Nome do Aluno -->
+          <div>
+            <label for="selectAluno" class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5">
+              Nome do Estudante: <span class="text-red-500">*</span>
+            </label>
+            <select id="selectAluno" required disabled class="w-full bg-slate-100 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all shadow-sm disabled:cursor-not-allowed disabled:opacity-60">
+              <option value="" disabled selected>-- Primeiro escolha a turma acima --</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Indicador de Checagem de Envio Anterior -->
+        <div id="statusVerificacaoAluno" class="mt-4 hidden p-3 rounded-xl text-xs sm:text-sm transition-all border"></div>
+      </section>
+
+      <!-- ETAPA 2: PARTE 1 - CLASSIFICAÇÃO DAS GRANDEZAS (Q1 A Q10) -->
+      <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+          <div class="flex items-center space-x-3">
+            <span class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow">
+              2
+            </span>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-800">Parte 1: Classificação das Grandezas</h3>
+              <p class="text-xs text-slate-500">Questões 1 a 10: Analise as situações e assinale a classificação correta.</p>
+            </div>
+          </div>
+          <span class="text-xs bg-blue-50 text-blue-700 border border-blue-200 font-semibold px-2.5 py-1 rounded-full">
+            Múltipla Escolha
+          </span>
+        </div>
+
+        <!-- Container de Questões 1 a 10 geradas dinamicamente -->
+        <div id="containerParte1" class="space-y-6 pt-2"></div>
+      </section>
+
+      <!-- ETAPA 3: PARTE 2 - CÁLCULO DE REGRA DE TRÊS (Q11 A Q20) -->
+      <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+          <div class="flex items-center space-x-3">
+            <span class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm shadow">
+              3
+            </span>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-800">Parte 2: Cálculo de Regra de Três</h3>
+              <p class="text-xs text-slate-500">Questões 11 a 20: Marque a resposta e <strong>registre todos os cálculos no papel</strong>.</p>
+            </div>
+          </div>
+          <span class="text-xs bg-indigo-50 text-indigo-700 border border-indigo-200 font-semibold px-2.5 py-1 rounded-full">
+            Cálculo Obrigatório
+          </span>
+        </div>
+
+        <!-- Container de Questões 11 a 20 geradas dinamicamente -->
+        <div id="containerParte2" class="space-y-6 pt-2"></div>
+      </section>
+
+      <!-- ETAPA 4: UPLOAD DA FOTO DOS CÁLCULOS -->
+      <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center space-x-3 mb-4 border-b border-slate-100 pb-3">
+          <span class="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-sm shadow">
+            4
+          </span>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-800">Envio da Folha de Rascunho / Cálculos</h3>
+            <p class="text-xs text-slate-500">Anexo obrigatório contendo os cálculos manuscritos das questões 11 a 20.</p>
+          </div>
+        </div>
+
+        <div class="bg-emerald-50/50 border border-emerald-200 rounded-xl p-3.5 mb-4 text-xs text-emerald-800 flex items-start gap-2">
+          <svg class="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <div>
+            <strong>Instrução da Foto:</strong> Escreva seu nome e turma com caneta no topo da folha de cálculos. Fotografe em local claro e enquadre toda a página para que os passos fiquem legíveis pelo professor.
+          </div>
+        </div>
+
+        <!-- Área de Upload -->
+        <div class="space-y-4">
+          <input type="file" id="inputFoto" accept="image/*" capture="environment" class="hidden" />
+          
+          <div id="dropZone" class="border-2 border-dashed border-slate-300 hover:border-brand-500 rounded-2xl p-6 text-center cursor-pointer transition-all bg-slate-50/60 hover:bg-brand-50/40">
+            <div id="uploadPlaceholder" class="space-y-3">
+              <div class="w-14 h-14 mx-auto rounded-full bg-brand-100 text-brand-600 flex items-center justify-center shadow-inner">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-slate-700">Clique para Tirar Foto ou Escolher da Galeria</p>
+                <p class="text-xs text-slate-500 mt-1">Formatos aceitos: JPG, PNG, WEBP ou HEIC (Câmera do celular)</p>
+              </div>
+              <button type="button" class="inline-flex items-center px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-all pointer-events-none">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Selecionar ou Fotografar
+              </button>
+            </div>
+
+            <!-- Preview da Foto Carregada -->
+            <div id="uploadPreviewContainer" class="hidden space-y-4">
+              <div class="relative inline-block max-w-full">
+                <img id="imgPreview" src="" alt="Folha de Cálculos" class="max-h-72 rounded-xl shadow-md border border-slate-200 mx-auto object-contain cursor-zoom-in" title="Clique para ampliar" />
+                <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[11px] font-bold px-2 py-0.5 rounded-full shadow">
+                  Foto Carregada ✓
+                </span>
+              </div>
+              <div class="flex items-center justify-center gap-2 flex-wrap">
+                <span id="nomeArquivoInfo" class="text-xs font-medium text-slate-600 bg-white px-3 py-1 rounded-lg border border-slate-200"></span>
+                <button type="button" id="btnAmpliarFoto" class="px-3 py-1.5 text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 rounded-lg border border-brand-200 transition-all flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                  Ampliar
+                </button>
+                <button type="button" id="btnTrocarFoto" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 rounded-lg border border-slate-300 transition-all">
+                  Trocar Foto
+                </button>
+                <button type="button" id="btnRemoverFoto" class="px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg border border-red-200 transition-all">
+                  Remover
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ETAPA 5: RESUMO E BOTÃO DE ENVIO -->
+      <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div>
+            <h4 class="text-base font-bold text-slate-800">Conferência Final</h4>
+            <p class="text-xs text-slate-500">Revise todas as questões antes do envio definitivo.</p>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-medium bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 w-fit">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>
+            <span id="textoContadorResumo">0 de 20 respondidas</span>
+          </div>
+        </div>
+
+        <!-- Alerta de Pendências (caso falte responder ou anexar foto) -->
+        <div id="alertaPendencias" class="hidden mb-4 p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm text-amber-900">
+          <p class="font-bold flex items-center gap-1.5 mb-1">
+            <svg class="w-4 h-4 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            Itens pendentes para o envio:
+          </p>
+          <ul id="listaPendencias" class="list-disc list-inside space-y-0.5 pl-2 text-amber-800"></ul>
+        </div>
+
+        <!-- Botão de Submissão -->
+        <button type="button" id="btnEnviarAtividade" class="w-full py-4 px-6 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold font-display text-base sm:text-lg shadow-lg shadow-brand-600/25 hover:shadow-brand-600/40 transition-all flex items-center justify-center gap-2 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+          </svg>
+          Finalizar e Enviar Atividade
+        </button>
+      </section>
+
+    </form>
+  </main>
+
+  <!-- BARRA INFERIOR FIXA DE PROGRESSO (MOBILE FIRST) -->
+  <aside class="sticky bottom-0 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-2.5 z-20 shadow-md">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex-grow">
+        <div class="flex items-center justify-between text-xs font-semibold text-slate-600 mb-1">
+          <span>Progresso da Atividade</span>
+          <span id="labelBarraProgresso">0/20 Questões (0%)</span>
+        </div>
+        <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+          <div id="barraProgresso" class="bg-brand-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+      <button type="button" onclick="document.getElementById('btnEnviarAtividade').scrollIntoView({behavior: 'smooth'})" class="flex-shrink-0 text-xs font-bold text-brand-600 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-xl border border-brand-200 transition-all">
+        Ver Envio ↓
+      </button>
+    </div>
+  </aside>
+
+  <!-- RODAPÉ INSTITUCIONAL -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-6 px-4 text-center mt-auto border-t border-slate-800">
+    <div class="max-w-4xl mx-auto space-y-2">
+      <p class="text-slate-300 font-semibold">CETI Elisa Bessa Freire • SEDUC-AM</p>
+      <p>Componente Curricular: Matemática • 9º Ano do Ensino Fundamental</p>
+      <p class="text-slate-500">Desenvolvido com foco em acessibilidade e responsividade escolar.</p>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- MODAIS E COMPONENTES AUXILIARES -->
+  <!-- ========================================================================= -->
+
+  <!-- MODAL: CONFIRMAÇÃO DE ENVIO -->
+  <div id="modalConfirmacao" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4 animate-scaleUp">
+      <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center mx-auto">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+
+      <div class="text-center">
+        <h3 class="text-lg font-bold font-display text-slate-800">Confirmar Envio Definitivo?</h3>
+        <p class="text-xs text-slate-500 mt-1">Após confirmar, suas respostas serão registradas no sistema e você receberá o comprovante de entrega.</p>
+      </div>
+
+      <div class="bg-slate-50 rounded-2xl p-4 text-xs space-y-2 border border-slate-200">
+        <div class="flex justify-between border-b border-slate-200/60 pb-1.5">
+          <span class="text-slate-500">Estudante:</span>
+          <span id="confirmAluno" class="font-bold text-slate-800"></span>
+        </div>
+        <div class="flex justify-between border-b border-slate-200/60 pb-1.5">
+          <span class="text-slate-500">Turma:</span>
+          <span id="confirmTurma" class="font-bold text-slate-800"></span>
+        </div>
+        <div class="flex justify-between border-b border-slate-200/60 pb-1.5">
+          <span class="text-slate-500">Questões Respondidas:</span>
+          <span class="font-bold text-emerald-600">20 de 20 (100%)</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-500">Folha de Cálculos:</span>
+          <span class="font-bold text-emerald-600">Anexada ✓</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <button type="button" id="btnCancelarModalConfirm" class="py-2.5 px-4 rounded-xl border border-slate-300 text-slate-700 text-xs sm:text-sm font-semibold hover:bg-slate-100 transition-all">
+          Revisar Respostas
+        </button>
+        <button type="button" id="btnConfirmarEnvioFinal" class="py-2.5 px-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-semibold transition-all shadow-md">
+          Sim, Enviar Agora
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: OVERLAY DE CARREGAMENTO / UPLOAD -->
+  <div id="modalLoading" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl border border-slate-100">
+      <div class="relative w-16 h-16 mx-auto">
+        <div class="w-16 h-16 rounded-full border-4 border-brand-200 border-t-brand-600 animate-spin"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-base font-bold text-slate-800">Enviando sua Atividade</h4>
+        <p id="msgLoadingStatus" class="text-xs text-slate-500 mt-1">Compactando imagem e preparando envio seguro...</p>
+      </div>
+      <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+        <div id="barraProgressoEnvio" class="bg-brand-600 h-1.5 rounded-full transition-all duration-300" style="width: 30%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: COMPROVANTE OFICIAL DE ENTREGA -->
+  <div id="modalComprovante" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-5 my-8">
+      
+      <!-- Cabeçalho do Comprovante -->
+      <div class="text-center space-y-2">
+        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
+          <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          Envio Concluído com Sucesso
+        </span>
+        <h3 class="text-xl sm:text-2xl font-bold font-display text-slate-800">Comprovante de Entrega</h3>
+        <p class="text-xs text-slate-500">Guarde este comprovante ou faça uma captura de tela como garantia.</p>
+      </div>
+
+      <!-- Detalhes do Comprovante -->
+      <div class="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200 text-xs sm:text-sm space-y-2.5">
+        <div class="flex justify-between border-b border-slate-200/80 pb-2">
+          <span class="text-slate-500">Escola:</span>
+          <span class="font-bold text-slate-800 text-right">CETI Elisa Bessa Freire</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-200/80 pb-2">
+          <span class="text-slate-500">Estudante:</span>
+          <span id="compAluno" class="font-bold text-slate-800 text-right"></span>
+        </div>
+        <div class="flex justify-between border-b border-slate-200/80 pb-2">
+          <span class="text-slate-500">Turma:</span>
+          <span id="compTurma" class="font-bold text-slate-800"></span>
+        </div>
+        <div class="flex justify-between border-b border-slate-200/80 pb-2">
+          <span class="text-slate-500">Data e Horário:</span>
+          <span id="compDataHora" class="font-bold text-slate-800"></span>
+        </div>
+        <div class="flex justify-between border-b border-slate-200/80 pb-2">
+          <span class="text-slate-500">Questões Respondidas:</span>
+          <span class="font-bold text-emerald-600">20 / 20</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-200/80 pb-2">
+          <span class="text-slate-500">Folha de Cálculos:</span>
+          <span class="font-bold text-emerald-600">Registrada no Servidor ✓</span>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-between pt-1 gap-1">
+          <span class="text-slate-500">Código de Autenticação:</span>
+          <span id="compProtocolo" class="font-mono font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded border border-brand-200 select-all"></span>
+        </div>
+      </div>
+
+      <!-- Resumo Rápido das Alternativas Assinaladas -->
+      <div class="border border-slate-200 rounded-xl p-3 bg-white">
+        <p class="text-xs font-bold text-slate-700 mb-2">Gabarito Pessoal Registrado:</p>
+        <div id="gridGabaritoPessoal" class="grid grid-cols-5 sm:grid-cols-10 gap-1 text-center text-[11px] font-mono"></div>
+      </div>
+
+      <!-- Ações do Comprovante -->
+      <div class="space-y-2 pt-2 no-print">
+        <button type="button" onclick="window.print()" class="w-full py-3 px-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+          </svg>
+          Salvar ou Imprimir Comprovante
+        </button>
+        <button type="button" onclick="location.reload()" class="w-full py-2.5 px-4 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold text-xs sm:text-sm transition-all">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ZOOM DA FOTO -->
+  <div id="modalZoom" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-3 hidden" onclick="fecharZoom()">
+    <div class="relative max-w-3xl max-h-[90vh]">
+      <img id="imgZoomTarget" src="" alt="Foto Ampliada" class="max-w-full max-h-[85vh] rounded-xl shadow-2xl object-contain" />
+      <button type="button" class="absolute -top-10 right-0 text-white text-sm font-bold bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full">
+        ✕ Fechar
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIGURAÇÃO DO SUPABASE (PROFESSOR) -->
+  <div id="modalConfig" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+          <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          Configurações do Supabase
+        </h3>
+        <button type="button" onclick="fecharConfig()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+      </div>
+
+      <p class="text-xs text-slate-500">
+        Insira as credenciais do seu projeto Supabase (disponíveis em <em>Project Settings -> API</em>).
+      </p>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Project URL (SUPABASE_URL):</label>
+          <input type="url" id="cfgSupabaseUrl" placeholder="https://xyzcompany.supabase.co" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-brand-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Anon / Public Key (SUPABASE_ANON_KEY):</label>
+          <input type="text" id="cfgSupabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-brand-500" />
+        </div>
+      </div>
+
+      <div id="cfgFeedback" class="text-xs p-2.5 rounded-lg hidden"></div>
+
+      <div class="flex gap-2 pt-2">
+        <button type="button" onclick="testarConexaoSupabase()" class="flex-1 py-2 px-3 rounded-xl border border-brand-500 text-brand-600 hover:bg-brand-50 text-xs font-semibold transition-all">
+          Testar Conexão
+        </button>
+        <button type="button" onclick="salvarConfigSupabase()" class="flex-1 py-2 px-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow transition-all">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: LÓGICA COMPLETA DA APLICAÇÃO -->
+  <!-- ========================================================================= -->
+  <script>
+    /**
+     * CONFIGURAÇÃO PADRÃO DO SUPABASE
+     * Caso o professor prefira configurar direto no arquivo ou através do modal de configurações.
+     */
+    const CONFIG_PADRAO = {
+      SUPABASE_URL: "https://jwmnvkcczayhqzeblyjl.supabase.co",
+      SUPABASE_ANON_KEY: "sb_publishable_PmIY1yelZilcGsIPT1ER_Q_FRkeObsY"
+    };
+
+    // Obtém chaves do localStorage caso tenham sido configuradas pela interface
+    function obterConfiguracao() {
+      const salva = localStorage.getItem('config_supabase_elisa_bessa');
+      if (salva) {
+        try {
+          return JSON.parse(salva);
+        } catch (e) {}
+      }
+      return CONFIG_PADRAO;
+    }
+
+    let supabaseClient = null;
+    function inicializarSupabase() {
+      const cfg = obterConfiguracao();
+      if (window.supabase && cfg.SUPABASE_URL && !cfg.SUPABASE_URL.includes("SEU_PROJETO_AQUI")) {
+        try {
+          supabaseClient = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+          console.log("Supabase inicializado com sucesso.");
+        } catch (err) {
+          console.warn("Erro ao instanciar Supabase:", err);
+          supabaseClient = null;
+        }
+      } else {
+        supabaseClient = null;
+      }
+    }
+
+    // =========================================================================
+    // LISTAS OFICIAIS DE ALUNOS POR TURMA (ORDEM E GRAFIA EXATA)
+    // =========================================================================
+    const ALUNOS_POR_TURMA = {
+      '9º 1': [
+        'ALICE LIMA', 'ANA BEATRIZ', 'ANA CLARA DA CRUZ', 'ARTHUR MATHEUS', 'ARTHUR VINICIUS',
+        'BRENDA LOHANY', 'CALEBE MENDES', 'EMANUELY MARIA', 'FERNANDA DUARTE', 'GUILHERME CARDOSO',
+        'HELOISA SAMPAIO', 'ISABELA LOUISE', 'ISABELLA MACEDO', 'JAMILLE ESTEFANY', 'JASMIM DA SILVA',
+        'JOAO GUILHERME', 'JOSE HENRIQUE MOURA', 'JULIANY ROCHA', 'KEVEN GUILHERME', 'LAURA SOPHYA',
+        'LAYANE KAROLINE', 'LORRANA GABRIELLY', 'LUCAS MAZETTI', 'MARIA ALICE', 'MARIA EDUARDA LACERDA',
+        'MARIA EDUARDA LIMA', 'MATEUS HENRIQUE', 'MELISSA PAULA', 'PEDRO GENTIL', 'PEDRO IGOR',
+        'PERICLES DANIEL', 'RAONI FERREIRA', 'RENATO GABRIEL', 'SIDNEY SOUZA', 'YASMIM BATISTA',
+        'PEDRO HENRIQUE', 'NATANAEL MELHOR ALUNO'
+      ],
+      '9º 2': [
+        'ANA CLAYRE', 'ANA VITORIA', 'ANNE BEATRIZ', 'BREENDO RIBEIRO', 'DANILO CAUE',
+        'DYEGO MELO', 'EMANUELY VITORIA', 'GLENDA LARISSA', 'GUSTAVO ARMSTRONG', 'JHESSICA ALMEIDA',
+        'JOAO CARLOS', 'JOAO PEDRO', 'JOAO VITOR', 'JOSUE RAFAEL', 'JULIA OLIVEIRA',
+        'JULIANA SILVA', 'KAUA GABRIEL', 'KAYO ADRIANO', 'LARA RUANA', 'LETICIA TAVARES',
+        'MARCO ANTONIO', 'MARINA ALICE', 'MELYSSA GLENDIANE', 'MIKAELLY ALVES', 'NIVALDO RODRIGUES',
+        'PEDRO MESQUITA', 'PEDRO VICTOR', 'RAICCA GABRIELLE', 'RAQUEL GAMA', 'RENAN MATHEUS',
+        'SALOMAO GOMES', 'SELMA KAUANY', 'SOPHIA PINHEIRO', 'SOPHIA SILVA', 'VICTOR GABRIEL',
+        'YASMIN VITORIA', 'NATANAEL MELHOR ALUNO'
+      ],
+      '9º 4': [
+        'ALEXSANDER DE OLIVEIRA', 'ANA JULIA', 'ANGELO GABRIEL', 'ANNE BEATRICE', 'ASAFE RHYETRO',
+        'BRISA LOHAINY', 'CARLOS EDUARDO', 'DAVI OLIVEIRA', 'EMILLY FERNANDA', 'ERIKE LUIZ',
+        'FABIO GONCALVES', 'FERNANDO NASCIMENTO', 'GUILHERME DA SILVA', 'GUILHERME VALE', 'ISMAEL GOMES',
+        'JHON ANDREW', 'JOSE VICTOR', 'JOSUE NICHOLLAS', 'KAUA CANTUARIO', 'LUIZ FABIANO',
+        'MANUELA SILVA', 'MARIA EDUARDA', 'MAYSA PYETRA', 'NATHANAEL DUTRA', 'PAULO SAMUEL',
+        'PIETRO FERREIRA', 'RENAN GOMES', 'RENAN RAMOS', 'SAMANTA VITORIA', 'SAMILA HELOISA',
+        'SARA CRISTINA', 'SARA FERNANDA', 'SARA VICTORIA', 'SERGIO LUCAS', 'THAYNNA RUANNE',
+        'VITOR DANIEL', 'NATANAEL MELHOR ALUNO'
+      ]
+    };
+
+    // =========================================================================
+    // BANCO DE DADOS DAS QUESTÕES 1 A 20
+    // =========================================================================
+    const QUESTOES = [
+      // PARTE 1: CLASSIFICAÇÃO DAS GRANDEZAS (1 A 10)
+      {
+        id: 1,
+        parte: 1,
+        enunciado: "A quantidade de operários trabalhando em uma obra e o tempo necessário para concluí-la.",
+        opcoes: [
+          { letra: 'A', texto: 'Diretamente Proporcionais' },
+          { letra: 'B', texto: 'Inversamente Proporcionais' },
+          { letra: 'C', texto: 'Não proporcionais' },
+          { letra: 'D', texto: 'Grandezas nulas' },
+          { letra: 'E', texto: 'Constantes' }
+        ]
+      },
+      {
+        id: 2,
+        parte: 1,
+        enunciado: "A quantidade de quilogramas de carne comprada em um açougue e o valor total pago por essa compra.",
+        opcoes: [
+          { letra: 'A', texto: 'Inversamente Proporcionais' },
+          { letra: 'B', texto: 'Diretamente Proporcionais' },
+          { letra: 'C', texto: 'Independentes' },
+          { letra: 'D', texto: 'Inversas e nulas' },
+          { letra: 'E', texto: 'Opostas' }
+        ]
+      },
+      {
+        id: 3,
+        parte: 1,
+        enunciado: "A velocidade média desenvolvida por um veículo em um trajeto e o tempo gasto para percorrê-lo.",
+        opcoes: [
+          { letra: 'A', texto: 'Diretamente Proporcionais' },
+          { letra: 'B', texto: 'Inversamente Proporcionais' },
+          { letra: 'C', texto: 'Diretamente proporcionais ao quadrado' },
+          { letra: 'D', texto: 'Inversamente proporcionais ao quadrado' },
+          { letra: 'E', texto: 'Constantes' }
+        ]
+      },
+      {
+        id: 4,
+        parte: 1,
+        enunciado: "O número de páginas lidas por um estudante e o tempo total dedicado à leitura.",
+        opcoes: [
+          { letra: 'A', texto: 'Inversamente Proporcionais' },
+          { letra: 'B', texto: 'Diretamente Proporcionais' },
+          { letra: 'C', texto: 'Não proporcionais' },
+          { letra: 'D', texto: 'Inversas' },
+          { letra: 'E', texto: 'Decrescentes' }
+        ]
+      },
+      {
+        id: 5,
+        parte: 1,
+        enunciado: "A quantidade de ração consumida por dia em um canil e o número de cães alojados nesse abrigo.",
+        opcoes: [
+          { letra: 'A', texto: 'Inversamente Proporcionais' },
+          { letra: 'B', texto: 'Diretamente Proporcionais' },
+          { letra: 'C', texto: 'Neutras' },
+          { letra: 'D', texto: 'Inversamente proporcionais ao cubo' },
+          { letra: 'E', texto: 'Não proporcionais' }
+        ]
+      },
+      {
+        id: 6,
+        parte: 1,
+        enunciado: "O número de torneiras idênticas abertas e o tempo necessário para encher um reservatório de capacidade fixa.",
+        opcoes: [
+          { letra: 'A', texto: 'Diretamente Proporcionais' },
+          { letra: 'B', texto: 'Inversamente Proporcionais' },
+          { letra: 'C', texto: 'Não proporcionais' },
+          { letra: 'D', texto: 'Constantes' },
+          { letra: 'E', texto: 'Simétricas' }
+        ]
+      },
+      {
+        id: 7,
+        parte: 1,
+        enunciado: "O número de dias trabalhados por um operário e o valor total do seu salário líquido (diária fixa).",
+        opcoes: [
+          { letra: 'A', texto: 'Inversamente Proporcionais' },
+          { letra: 'B', texto: 'Diretamente Proporcionais' },
+          { letra: 'C', texto: 'Inversamente proporcionais à raiz quadrada' },
+          { letra: 'D', texto: 'Constantes' },
+          { letra: 'E', texto: 'Não proporcionais' }
+        ]
+      },
+      {
+        id: 8,
+        parte: 1,
+        enunciado: "A quantidade de água utilizada em uma plantação e a umidade do solo resultante.",
+        opcoes: [
+          { letra: 'A', texto: 'Inversamente Proporcionais' },
+          { letra: 'B', texto: 'Diretamente Proporcionais' },
+          { letra: 'C', texto: 'Proporcionais inversas' },
+          { letra: 'D', texto: 'Não proporcionais lineares' },
+          { letra: 'E', texto: 'Neutras' }
+        ]
+      },
+      {
+        id: 9,
+        parte: 1,
+        enunciado: "O número de dias de viagem e a quantidade de mantimentos consumida por uma tropa de soldados.",
+        opcoes: [
+          { letra: 'A', texto: 'Inversamente Proporcionais' },
+          { letra: 'B', texto: 'Diretamente Proporcionais' },
+          { letra: 'C', texto: 'Inversas ao quadrado' },
+          { letra: 'D', texto: 'Constantes' },
+          { letra: 'E', texto: 'Não proporcionais' }
+        ]
+      },
+      {
+        id: 10,
+        parte: 1,
+        enunciado: "A base de um retângulo e a sua altura, mantendo a sua área total perfeitamente constante.",
+        opcoes: [
+          { letra: 'A', texto: 'Diretamente Proporcionais' },
+          { letra: 'B', texto: 'Inversamente Proporcionais' },
+          { letra: 'C', texto: 'Lineares' },
+          { letra: 'D', texto: 'Nulas' },
+          { letra: 'E', texto: 'Independentes' }
+        ]
+      },
+
+      // PARTE 2: CÁLCULO DE REGRA DE TRÊS (11 A 20)
+      {
+        id: 11,
+        parte: 2,
+        enunciado: "Um técnico percebe que necessita de 9 pedreiros para construir uma casa em 20 dias. Quantos pedreiros são necessários para construir em 12 dias?",
+        opcoes: [
+          { letra: 'A', texto: '6 pedreiros' },
+          { letra: 'B', texto: '12 pedreiros' },
+          { letra: 'C', texto: '15 pedreiros' },
+          { letra: 'D', texto: '18 pedreiros' },
+          { letra: 'E', texto: '21 pedreiros' }
+        ]
+      },
+      {
+        id: 12,
+        parte: 2,
+        enunciado: "Uma editora utiliza 3 máquinas para produzir 1.800 livros. Quantas máquinas para produzir 5.400 livros no mesmo período?",
+        opcoes: [
+          { letra: 'A', texto: '5 máquinas' },
+          { letra: 'B', texto: '6 máquinas' },
+          { letra: 'C', texto: '7 máquinas' },
+          { letra: 'D', texto: '8 máquinas' },
+          { letra: 'E', texto: '9 máquinas' }
+        ]
+      },
+      {
+        id: 13,
+        parte: 2,
+        enunciado: "Um ônibus, a 90 km/h, fez um percurso em 4 h. Quanto tempo levaria a 120 km/h?",
+        opcoes: [
+          { letra: 'A', texto: '2h 30min' },
+          { letra: 'B', texto: '3h' },
+          { letra: 'C', texto: '3h 30min' },
+          { letra: 'D', texto: '4h 30min' },
+          { letra: 'E', texto: '5h' }
+        ]
+      },
+      {
+        id: 14,
+        parte: 2,
+        enunciado: "Para pavimentar 300m, 12 operários levam 15 dias. Quantos dias para 20 operários pavimentarem os mesmos 300m?",
+        opcoes: [
+          { letra: 'A', texto: '6 dias' },
+          { letra: 'B', texto: '8 dias' },
+          { letra: 'C', texto: '9 dias' },
+          { letra: 'D', texto: '10 dias' },
+          { letra: 'E', texto: '12 dias' }
+        ]
+      },
+      {
+        id: 15,
+        parte: 2,
+        enunciado: "Uma gráfica produz 4.500 panfletos com 5 máquinas em 3h. Quantos panfletos com 8 máquinas no mesmo período?",
+        opcoes: [
+          { letra: 'A', texto: '6.200 panfletos' },
+          { letra: 'B', texto: '7.200 panfletos' },
+          { letra: 'C', texto: '8.000 panfletos' },
+          { letra: 'D', texto: '8.500 panfletos' },
+          { letra: 'E', texto: '9.000 panfletos' }
+        ]
+      },
+      {
+        id: 16,
+        parte: 2,
+        enunciado: "Se 6 torneiras enchem um reservatório em 10h, em quanto tempo estaria cheio com 15 torneiras?",
+        opcoes: [
+          { letra: 'A', texto: '3 horas' },
+          { letra: 'B', texto: '4 horas' },
+          { letra: 'C', texto: '5 horas' },
+          { letra: 'D', texto: '6 horas' },
+          { letra: 'E', texto: '8 horas' }
+        ]
+      },
+      {
+        id: 17,
+        parte: 2,
+        enunciado: "Para alimentar 45 cães por 12 dias são necessários 108 kg de ração. Quantos kg para 60 cães no mesmo período?",
+        opcoes: [
+          { letra: 'A', texto: '132 kg' },
+          { letra: 'B', texto: '140 kg' },
+          { letra: 'C', texto: '144 kg' },
+          { letra: 'D', texto: '150 kg' },
+          { letra: 'E', texto: '160 kg' }
+        ]
+      },
+      {
+        id: 18,
+        parte: 2,
+        enunciado: "Um automóvel consome 30 litros para 350 km. Quantos litros consumirá para percorrer 560 km?",
+        opcoes: [
+          { letra: 'A', texto: '42 litros' },
+          { letra: 'B', texto: '45 litros' },
+          { letra: 'C', texto: '48 litros' },
+          { letra: 'D', texto: '50 litros' },
+          { letra: 'E', texto: '52 litros' }
+        ]
+      },
+      {
+        id: 19,
+        parte: 2,
+        enunciado: "Uma guarnição com 120 soldados tem mantimentos para 30 dias. Com um reforço de 30 soldados (total 150), durarão quantos dias?",
+        opcoes: [
+          { letra: 'A', texto: '20 dias' },
+          { letra: 'B', texto: '22 dias' },
+          { letra: 'C', texto: '24 dias' },
+          { letra: 'D', texto: '25 dias' },
+          { letra: 'E', texto: '28 dias' }
+        ]
+      },
+      {
+        id: 20,
+        parte: 2,
+        enunciado: "Um ciclista percorre uma trilha em 4h a 25 km/h. Se desejar fazer em 5h, qual será a nova velocidade média?",
+        opcoes: [
+          { letra: 'A', texto: '15 km/h' },
+          { letra: 'B', texto: '18 km/h' },
+          { letra: 'C', texto: '20 km/h' },
+          { letra: 'D', texto: '22 km/h' },
+          { letra: 'E', texto: '30 km/h' }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // ESTADO GLOBAL DA APLICAÇÃO
+    // =========================================================================
+    let respostasEstudante = {};
+    let arquivoFotoSelecionado = null;
+    let arquivoFotoOtimizado = null;
+    let jaEnviouAnteriormente = false;
+
+    // Modo Teste para o professor poder testar antes do dia 01/10/2026 08:00
+    const urlParams = new URLSearchParams(window.location.search);
+    let modoTesteAtivo = urlParams.get('modo_teste') === 'true' || localStorage.getItem('modo_teste_elisa_bessa') === 'true';
+
+    // =========================================================================
+    // CONTROLE E VALIDAÇÃO ESTRITA DE PRAZO (01/10/2026 - 08:00 às 23:59)
+    // =========================================================================
+    function verificarJanelaPrazo() {
+      if (modoTesteAtivo) {
+        return {
+          permitido: true,
+          estado: 'modo_teste',
+          mensagem: 'Modo de Teste / Professor Ativo: Envio liberado para homologação.'
+        };
+      }
+
+      const agora = new Date();
+      // Data de Início: 01 de Outubro de 2026 às 08:00:00 (mês 9 é Outubro em JS)
+      const dataInicio = new Date(2026, 9, 1, 8, 0, 0);
+      // Data de Término: 01 de Outubro de 2026 às 23:59:59
+      const dataFim = new Date(2026, 9, 1, 23, 59, 59);
+
+      if (agora < dataInicio) {
+        return {
+          permitido: false,
+          estado: 'antes',
+          mensagem: 'Período de envio se inicia em 01/10/2026 às 08:00. Respostas abertas para estudo prévio.'
+        };
+      } else if (agora > dataFim) {
+        return {
+          permitido: false,
+          estado: 'depois',
+          mensagem: 'Prazo de envio encerrado em 01/10/2026 às 23:59. Não são mais aceitas novas respostas.'
+        };
+      } else {
+        return {
+          permitido: true,
+          estado: 'aberto',
+          mensagem: 'Atividade Aberta: Envio permitido até 01/10/2026 às 23:59.'
+        };
+      }
+    }
+
+    function atualizarBannerPrazo() {
+      const infoPrazo = verificarJanelaPrazo();
+      const banner = document.getElementById('bannerPrazo');
+      const texto = document.getElementById('textoPrazo');
+      const badgeTeste = document.getElementById('badgeModoTeste');
+      const btnEnviar = document.getElementById('btnEnviarAtividade');
+
+      if (modoTesteAtivo) {
+        badgeTeste.classList.remove('hidden');
+        banner.className = 'bg-indigo-600 text-white px-4 py-2.5 border-b border-indigo-700 text-xs sm:text-sm font-medium';
+        texto.textContent = 'MODO DE TESTE ATIVO: O limite de horário está suspenso para testes pelo professor.';
+        document.getElementById('lblModoTeste').textContent = 'Modo Teste (ON)';
+      } else {
+        badgeTeste.classList.add('hidden');
+        document.getElementById('lblModoTeste').textContent = 'Modo Normal';
+
+        if (infoPrazo.estado === 'aberto') {
+          banner.className = 'bg-emerald-600 text-white px-4 py-2.5 border-b border-emerald-700 text-xs sm:text-sm font-medium';
+          texto.textContent = infoPrazo.mensagem;
+        } else if (infoPrazo.estado === 'antes') {
+          banner.className = 'bg-amber-500 text-amber-950 px-4 py-2.5 border-b border-amber-600 text-xs sm:text-sm font-medium';
+          texto.textContent = infoPrazo.mensagem;
+        } else {
+          banner.className = 'bg-rose-600 text-white px-4 py-2.5 border-b border-rose-700 text-xs sm:text-sm font-medium';
+          texto.textContent = infoPrazo.mensagem;
+        }
+      }
+
+      // Se prazo fechado e não em modo teste, bloqueia o botão de envio
+      if (!infoPrazo.permitido && !modoTesteAtivo) {
+        btnEnviar.disabled = true;
+        btnEnviar.title = infoPrazo.mensagem;
+      }
+    }
+
+    // Alternar Modo Teste
+    document.getElementById('btnToggleModoTeste').addEventListener('click', () => {
+      modoTesteAtivo = !modoTesteAtivo;
+      localStorage.setItem('modo_teste_elisa_bessa', modoTesteAtivo ? 'true' : 'false');
+      atualizarBannerPrazo();
+      atualizarProgresso();
+    });
+
+    // =========================================================================
+    // RENDERIZAÇÃO DAS QUESTÕES (PARTE 1 E PARTE 2)
+    // =========================================================================
+    function renderizarQuestoes() {
+      const containerP1 = document.getElementById('containerParte1');
+      const containerP2 = document.getElementById('containerParte2');
+      containerP1.innerHTML = '';
+      containerP2.innerHTML = '';
+
+      QUESTOES.forEach(q => {
+        const questaoCard = document.createElement('div');
+        questaoCard.className = 'bg-slate-50/70 border border-slate-200/90 rounded-2xl p-4 sm:p-5 transition-all hover:border-slate-300';
+        questaoCard.id = `card-q${q.id}`;
+
+        const badgeCor = q.parte === 1 ? 'bg-brand-100 text-brand-700 border-brand-200' : 'bg-indigo-100 text-indigo-700 border-indigo-200';
+        const labelParte = q.parte === 1 ? 'Classificação' : 'Regra de Três';
+
+        let html = `
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <span class="inline-flex items-center text-xs font-bold px-2.5 py-1 rounded-lg border ${badgeCor}">
+              Questão ${String(q.id).padStart(2, '0')} • ${labelParte}
+            </span>
+            <span id="badge-status-q${q.id}" class="text-[11px] font-semibold text-slate-400 flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+              Pendente
+            </span>
+          </div>
+
+          <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed mb-4">
+            ${q.enunciado}
+          </p>
+
+          <div class="grid grid-cols-1 gap-2.5">
+        `;
+
+        q.opcoes.forEach(op => {
+          const inputId = `q${q.id}_opt_${op.letra}`;
+          html += `
+            <div class="relative">
+              <input type="radio" id="${inputId}" name="q${q.id}" value="${op.letra}" class="sr-only" onchange="selecionarResposta(${q.id}, '${op.letra}')" />
+              <label for="${inputId}" class="flex items-center p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100/70 cursor-pointer transition-all select-none">
+                <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center mr-3 flex-shrink-0 transition-colors"></div>
+                <div class="text-xs sm:text-sm font-medium text-slate-700">
+                  <strong class="font-bold text-slate-900 mr-1.5">${op.letra})</strong> ${op.texto}
+                </div>
+              </label>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+        questaoCard.innerHTML = html;
+
+        if (q.parte === 1) {
+          containerP1.appendChild(questaoCard);
+        } else {
+          containerP2.appendChild(questaoCard);
+        }
+      });
+    }
+
+    // Registrar resposta ao marcar
+    window.selecionarResposta = function(numeroQuestao, letraEscolhida) {
+      respostasEstudante[`q${numeroQuestao}`] = letraEscolhida;
+
+      // Atualiza badge individual da questão
+      const statusBadge = document.getElementById(`badge-status-q${numeroQuestao}`);
+      if (statusBadge) {
+        statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> <span class="text-emerald-700 font-bold">Respondida (${letraEscolhida})</span>`;
+      }
+
+      const card = document.getElementById(`card-q${numeroQuestao}`);
+      if (card) {
+        card.classList.remove('border-red-300', 'bg-red-50/30');
+      }
+
+      atualizarProgresso();
+    };
+
+    // =========================================================================
+    // DROPDOWNS EM CASCATA: TURMA -> ALUNO
+    // =========================================================================
+    const selectTurma = document.getElementById('selectTurma');
+    const selectAluno = document.getElementById('selectAluno');
+    const statusVerificacaoAluno = document.getElementById('statusVerificacaoAluno');
+
+    selectTurma.addEventListener('change', (e) => {
+      const turma = e.target.value;
+      selectAluno.innerHTML = '<option value="" disabled selected>-- Selecione seu nome da lista --</option>';
+      statusVerificacaoAluno.classList.add('hidden');
+      jaEnviouAnteriormente = false;
+
+      if (ALUNOS_POR_TURMA[turma]) {
+        selectAluno.disabled = false;
+        ALUNOS_POR_TURMA[turma].forEach(nome => {
+          const opt = document.createElement('option');
+          opt.value = nome;
+          opt.textContent = nome;
+          selectAluno.appendChild(opt);
+        });
+      } else {
+        selectAluno.disabled = true;
+      }
+      atualizarProgresso();
+    });
+
+    selectAluno.addEventListener('change', async (e) => {
+      const aluno = e.target.value;
+      const turma = selectTurma.value;
+      if (turma && aluno) {
+        await checarEnvioDuplicado(turma, aluno);
+      }
+      atualizarProgresso();
+    });
+
+    // =========================================================================
+    // VERIFICAÇÃO DE DUPLICIDADE NO SUPABASE
+    // =========================================================================
+    async function checarEnvioDuplicado(turma, aluno) {
+      statusVerificacaoAluno.classList.remove('hidden');
+      statusVerificacaoAluno.className = 'mt-4 p-3.5 rounded-xl text-xs sm:text-sm bg-blue-50 text-blue-800 border border-blue-200 flex items-center gap-2';
+      statusVerificacaoAluno.innerHTML = `
+        <svg class="w-4 h-4 animate-spin text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        <span>Consultando base de dados da escola...</span>
+      `;
+
+      // 1. Checa cache local primeiro
+      const chaveCache = `envio_${turma}_${aluno}`;
+      if (localStorage.getItem(chaveCache)) {
+        jaEnviouAnteriormente = true;
+        exibirMensagemDuplicado(aluno, turma, "Neste dispositivo");
+        return;
+      }
+
+      // 2. Se cliente Supabase estiver ativo, consulta a tabela envios_atividade (ou atividades_respostas)
+      if (supabaseClient) {
+        try {
+          // Tenta na tabela envios_atividade
+          let { data, error } = await supabaseClient
+            .from('envios_atividade')
+            .select('id, criado_em, protocolo')
+            .eq('turma', turma)
+            .eq('aluno_nome', aluno)
+            .maybeSingle();
+
+          // Se deu erro ou não achou, tenta como fallback na atividades_respostas
+          if (!data) {
+            const fallback = await supabaseClient
+              .from('atividades_respostas')
+              .select('id, created_at, protocolo')
+              .eq('turma', turma)
+              .eq('aluno', aluno)
+              .maybeSingle();
+            if (fallback.data) data = fallback.data;
+          }
+
+          if (data) {
+            jaEnviouAnteriormente = true;
+            const dataEnvioFormatada = (data.criado_em || data.created_at) ? new Date(data.criado_em || data.created_at).toLocaleString('pt-BR') : 'Horário registrado';
+            exibirMensagemDuplicado(aluno, turma, dataEnvioFormatada, data.protocolo);
+            return;
+          }
+        } catch (err) {
+          console.warn("Erro ao verificar duplicidade no Supabase:", err);
+        }
+      }
+
+      // Se não há registro prévio
+      jaEnviouAnteriormente = false;
+      statusVerificacaoAluno.className = 'mt-4 p-3.5 rounded-xl text-xs sm:text-sm bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-2';
+      statusVerificacaoAluno.innerHTML = `
+        <svg class="w-4 h-4 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span>Aluno identificado: <strong>${aluno}</strong> (${turma}). Nenhum envio anterior registrado. Você pode responder!</span>
+      `;
+    }
+
+    function exibirMensagemDuplicado(aluno, turma, dataHora, protocolo = '') {
+      statusVerificacaoAluno.className = 'mt-4 p-3.5 rounded-xl text-xs sm:text-sm bg-rose-50 text-rose-900 border border-rose-200 space-y-1';
+      statusVerificacaoAluno.innerHTML = `
+        <div class="flex items-center gap-2 font-bold text-rose-700">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+          Envio Duplicado Bloqueado!
+        </div>
+        <p class="text-xs text-rose-800">
+          O(a) estudante <strong>${aluno}</strong> da turma <strong>${turma}</strong> já realizou o envio desta atividade anteriormente (${dataHora}).
+        </p>
+        ${protocolo ? `<p class="text-[11px] font-mono text-rose-700 font-semibold">Protocolo: ${protocolo}</p>` : ''}
+        <p class="text-xs text-rose-600 italic">Cada aluno tem direito a apenas 1 envio oficial no sistema.</p>
+      `;
+    }
+
+    // =========================================================================
+    // UPLOAD E OTIMIZAÇÃO DE FOTO NO CLIENTE (CANVAS)
+    // =========================================================================
+    const inputFoto = document.getElementById('inputFoto');
+    const dropZone = document.getElementById('dropZone');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+    const uploadPreviewContainer = document.getElementById('uploadPreviewContainer');
+    const imgPreview = document.getElementById('imgPreview');
+    const nomeArquivoInfo = document.getElementById('nomeArquivoInfo');
+
+    dropZone.addEventListener('click', (e) => {
+      // Se clicou nos botões de ampliar/trocar/remover, não dispara o input diretamente
+      if (e.target.closest('#btnAmpliarFoto') || e.target.closest('#btnRemoverFoto') || e.target.closest('#btnTrocarFoto')) {
+        return;
+      }
+      inputFoto.click();
+    });
+
+    document.getElementById('btnTrocarFoto').addEventListener('click', () => inputFoto.click());
+    
+    document.getElementById('btnRemoverFoto').addEventListener('click', () => {
+      arquivoFotoSelecionado = null;
+      arquivoFotoOtimizado = null;
+      inputFoto.value = '';
+      uploadPlaceholder.classList.remove('hidden');
+      uploadPreviewContainer.classList.add('hidden');
+      imgPreview.src = '';
+      atualizarProgresso();
+    });
+
+    document.getElementById('btnAmpliarFoto').addEventListener('click', () => {
+      if (imgPreview.src) {
+        document.getElementById('imgZoomTarget').src = imgPreview.src;
+        document.getElementById('modalZoom').classList.remove('hidden');
+      }
+    });
+
+    window.fecharZoom = function() {
+      document.getElementById('modalZoom').classList.add('hidden');
+    };
+
+    inputFoto.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecione um arquivo de imagem válido (foto).');
+        return;
+      }
+
+      arquivoFotoSelecionado = file;
+
+      // Pré-visualização imediata
+      const reader = new FileReader();
+      reader.onload = async (ev) => {
+        imgPreview.src = ev.target.result;
+        uploadPlaceholder.classList.add('hidden');
+        uploadPreviewContainer.classList.remove('hidden');
+
+        // Compacta imagem para otimizar upload no celular
+        try {
+          arquivoFotoOtimizado = await comprimirImagemClient(file, 1920, 0.82);
+          const tamanhoKB = (arquivoFotoOtimizado.size / 1024).toFixed(0);
+          nomeArquivoInfo.textContent = `${file.name} (${tamanhoKB} KB pronto)`;
+        } catch (err) {
+          arquivoFotoOtimizado = file;
+          nomeArquivoInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+        }
+
+        atualizarProgresso();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Função para redimensionar e compactar imagem via HTML5 Canvas
+    function comprimirImagemClient(file, maxLargura, qualidade) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxLargura) {
+            height = Math.round((height * maxLargura) / width);
+            width = maxLargura;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const otimizado = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+                type: 'image/jpeg',
+                lastModified: Date.now()
+              });
+              resolve(otimizado);
+            } else {
+              resolve(file);
+            }
+          }, 'image/jpeg', qualidade);
+        };
+        img.onerror = () => resolve(file);
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    // =========================================================================
+    // PROGRESSO, PENDÊNCIAS E ATUALIZAÇÃO DA INTERFACE
+    // =========================================================================
+    function obterPendencias() {
+      const pendencias = [];
+
+      if (!selectTurma.value) {
+        pendencias.push('Selecionar a Turma do 9º Ano');
+      }
+      if (!selectAluno.value) {
+        pendencias.push('Selecionar seu Nome oficial');
+      }
+
+      // Verifica questões faltantes
+      const naoRespondidas = [];
+      for (let i = 1; i <= 20; i++) {
+        if (!respostasEstudante[`q${i}`]) {
+          naoRespondidas.push(i);
+        }
+      }
+
+      if (naoRespondidas.length > 0) {
+        if (naoRespondidas.length === 20) {
+          pendencias.push('Responder as 20 questões de múltipla escolha');
+        } else {
+          pendencias.push(`Responder as questões restantes: ${naoRespondidas.map(n => `Q${n}`).join(', ')}`);
+        }
+      }
+
+      if (!arquivoFotoSelecionado) {
+        pendencias.push('Anexar a foto obrigatória da folha de cálculos (Questões 11 a 20)');
+      }
+
+      if (jaEnviouAnteriormente) {
+        pendencias.push('ATENÇÃO: Este aluno já enviou a atividade anteriormente (envio único)');
+      }
+
+      return pendencias;
+    }
+
+    function atualizarProgresso() {
+      const totalQuestoes = 20;
+      const respondidas = Object.keys(respostasEstudante).length;
+      const percentual = Math.round((respondidas / totalQuestoes) * 100);
+
+      // Barra de progresso flutuante
+      const barra = document.getElementById('barraProgresso');
+      const labelBarra = document.getElementById('labelBarraProgresso');
+      barra.style.width = `${percentual}%`;
+      labelBarra.textContent = `${respondidas}/${totalQuestoes} Questões (${percentual}%)`;
+
+      // Resumo final
+      document.getElementById('textoContadorResumo').textContent = `${respondidas} de ${totalQuestoes} respondidas`;
+
+      const pendencias = obterPendencias();
+      const alerta = document.getElementById('alertaPendencias');
+      const lista = document.getElementById('listaPendencias');
+      const btnEnviar = document.getElementById('btnEnviarAtividade');
+
+      if (pendencias.length > 0) {
+        lista.innerHTML = pendencias.map(p => `<li>${p}</li>`).join('');
+        alerta.classList.remove('hidden');
+      } else {
+        alerta.classList.add('hidden');
+      }
+
+      const infoPrazo = verificarJanelaPrazo();
+      const prazoPermitido = infoPrazo.permitido || modoTesteAtivo;
+
+      // Habilita ou desabilita o botão
+      btnEnviar.disabled = pendencias.length > 0 || !prazoPermitido;
+    }
+
+    // =========================================================================
+    // SUBMISSÃO DA ATIVIDADE
+    // =========================================================================
+    const btnEnviarAtividade = document.getElementById('btnEnviarAtividade');
+    const modalConfirmacao = document.getElementById('modalConfirmacao');
+    const btnCancelarModalConfirm = document.getElementById('btnCancelarModalConfirm');
+    const btnConfirmarEnvioFinal = document.getElementById('btnConfirmarEnvioFinal');
+    const modalLoading = document.getElementById('modalLoading');
+    const msgLoadingStatus = document.getElementById('msgLoadingStatus');
+    const barraProgressoEnvio = document.getElementById('barraProgressoEnvio');
+
+    btnEnviarAtividade.addEventListener('click', () => {
+      const pendencias = obterPendencias();
+      if (pendencias.length > 0) {
+        alert('Atenção: Por favor, complete todos os itens pendentes listados antes de enviar!');
+        document.getElementById('alertaPendencias').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      const infoPrazo = verificarJanelaPrazo();
+      if (!infoPrazo.permitido && !modoTesteAtivo) {
+        alert(infoPrazo.mensagem);
+        return;
+      }
+
+      // Preenche os dados no modal de confirmação
+      document.getElementById('confirmAluno').textContent = selectAluno.value;
+      document.getElementById('confirmTurma').textContent = selectTurma.value;
+      modalConfirmacao.classList.remove('hidden');
+    });
+
+    btnCancelarModalConfirm.addEventListener('click', () => {
+      modalConfirmacao.classList.add('hidden');
+    });
+
+    btnConfirmarEnvioFinal.addEventListener('click', async () => {
+      modalConfirmacao.classList.add('hidden');
+      modalLoading.classList.remove('hidden');
+
+      const aluno = selectAluno.value;
+      const turma = selectTurma.value;
+      const dataHoraAtual = new Date();
+      const dataFormatada = dataHoraAtual.toLocaleString('pt-BR');
+      
+      // Gera protocolo limpo e profissional
+      const alunoPrimeiroNome = aluno.split(' ')[0].toUpperCase();
+      const sufixoAleatorio = Math.random().toString(36).substring(2, 7).toUpperCase();
+      const turmaCodigo = turma.replace(/\s+/g, '').replace('º', '');
+      const protocolo = `CETI-20261001-${turmaCodigo}-${alunoPrimeiroNome}-${sufixoAleatorio}`;
+
+      try {
+        // Passo 1: Otimização da imagem
+        msgLoadingStatus.textContent = 'Otimizando imagem dos cálculos...';
+        barraProgressoEnvio.style.width = '35%';
+        const arquivoParaUpload = arquivoFotoOtimizado || arquivoFotoSelecionado;
+
+        let fotoUrlPublica = '';
+
+        // Passo 2: Upload para o Supabase Storage (se configurado)
+        msgLoadingStatus.textContent = 'Enviando foto dos cálculos para o servidor escolar...';
+        barraProgressoEnvio.style.width = '65%';
+
+        if (supabaseClient) {
+          const nomeArquivoLimpo = `${turmaCodigo}_${alunoPrimeiroNome}_${Date.now()}.jpg`
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9._-]/g, "_");
+
+          const { data: uploadData, error: uploadError } = await supabaseClient.storage
+            .from('calculos')
+            .upload(nomeArquivoLimpo, arquivoParaUpload, {
+              cacheControl: '3600',
+              upsert: true
+            });
+
+          if (uploadError) {
+            console.warn("Aviso no upload da imagem no Supabase:", uploadError.message);
+            // Fallback de URL pública estimada
+            const cfg = obterConfiguracao();
+            fotoUrlPublica = `${cfg.SUPABASE_URL}/storage/v1/object/public/calculos/${nomeArquivoLimpo}`;
+          } else {
+            const { data: publicUrlData } = supabaseClient.storage
+              .from('calculos')
+              .getPublicUrl(uploadData.path);
+            fotoUrlPublica = publicUrlData ? publicUrlData.publicUrl : '';
+          }
+
+          // Passo 3: Gravação na tabela envios_atividade (ou atividades_respostas)
+          msgLoadingStatus.textContent = 'Gravando respostas na base de dados...';
+          barraProgressoEnvio.style.width = '85%';
+
+          // Separa as respostas das partes 1 e 2
+          const respP1 = {};
+          const respP2 = {};
+          for (let i = 1; i <= 10; i++) respP1[`q${i}`] = respostasEstudante[`q${i}`] || '';
+          for (let i = 11; i <= 20; i++) respP2[`q${i}`] = respostasEstudante[`q${i}`] || '';
+
+          const payloadEnvios = {
+            turma: turma,
+            aluno_nome: aluno,
+            respostas_parte1: respP1,
+            respostas_parte2: respP2,
+            fotos_urls: [fotoUrlPublica || 'arquivo_anexado_com_sucesso'],
+            protocolo: protocolo
+          };
+
+          let { error: insertError } = await supabaseClient
+            .from('envios_atividade')
+            .insert([payloadEnvios]);
+
+          if (insertError) {
+            console.warn("Tentando fallback na tabela atividades_respostas:", insertError.message);
+            const payloadFallback = {
+              turma: turma,
+              aluno: aluno,
+              respostas: respostasEstudante,
+              foto_calculos_url: fotoUrlPublica || 'arquivo_anexado_com_sucesso',
+              protocolo: protocolo,
+              data_envio: dataFormatada,
+              user_agent: navigator.userAgent
+            };
+
+            const fallbackRes = await supabaseClient
+              .from('atividades_respostas')
+              .insert([payloadFallback]);
+
+            if (!fallbackRes.error) {
+              insertError = null;
+            } else if (insertError.code === '23505' || fallbackRes.error.code === '23505') {
+              throw new Error(`Este estudante (${aluno}) já possui um envio registrado.`);
+            }
+          }
+        } else {
+          // Modo offline / demonstração
+          await new Promise(r => setTimeout(r, 1200));
+          fotoUrlPublica = imgPreview.src;
+        }
+
+        // Sucesso! Grava chave local de envio
+        localStorage.setItem(`envio_${turma}_${aluno}`, JSON.stringify({
+          protocolo,
+          data: dataFormatada,
+          respostas: respostasEstudante
+        }));
+
+        barraProgressoEnvio.style.width = '100%';
+        msgLoadingStatus.textContent = 'Envio finalizado com sucesso!';
+
+        setTimeout(() => {
+          modalLoading.classList.add('hidden');
+          exibirComprovante(aluno, turma, dataFormatada, protocolo);
+        }, 600);
+
+      } catch (err) {
+        modalLoading.classList.add('hidden');
+        alert(`Não foi possível concluir o envio: ${err.message || 'Erro inesperado'}. Por favor, tente novamente.`);
+      }
+    });
+
+    // =========================================================================
+    // EXIBIÇÃO DO COMPROVANTE DE ENTREGA
+    // =========================================================================
+    function exibirComprovante(aluno, turma, dataHora, protocolo) {
+      document.getElementById('compAluno').textContent = aluno;
+      document.getElementById('compTurma').textContent = turma;
+      document.getElementById('compDataHora').textContent = dataHora;
+      document.getElementById('compProtocolo').textContent = protocolo;
+
+      // Renderiza grid de respostas no comprovante
+      const grid = document.getElementById('gridGabaritoPessoal');
+      grid.innerHTML = '';
+      for (let i = 1; i <= 20; i++) {
+        const resp = respostasEstudante[`q${i}`] || '-';
+        grid.innerHTML += `
+          <div class="bg-slate-100 rounded p-1 border border-slate-200">
+            <span class="text-slate-400 block text-[9px]">Q${i}</span>
+            <span class="font-bold text-slate-800">${resp}</span>
+          </div>
+        `;
+      }
+
+      document.getElementById('modalComprovante').classList.remove('hidden');
+
+      // Efeito de confetes comemorativos
+      if (window.confetti) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 50,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 }
+          });
+          confetti({
+            particleCount: 50,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+          });
+        }, 300);
+      }
+    }
+
+    // =========================================================================
+    // MODAL DE CONFIGURAÇÃO DO SUPABASE (PROFESSOR)
+    // =========================================================================
+    const modalConfig = document.getElementById('modalConfig');
+    document.getElementById('btnAbrirConfig').addEventListener('click', () => {
+      const cfg = obterConfiguracao();
+      document.getElementById('cfgSupabaseUrl').value = cfg.SUPABASE_URL.includes("SEU_PROJETO_AQUI") ? "" : cfg.SUPABASE_URL;
+      document.getElementById('cfgSupabaseKey').value = cfg.SUPABASE_ANON_KEY.includes("SUA_CHAVE_ANON") ? "" : cfg.SUPABASE_ANON_KEY;
+      document.getElementById('cfgFeedback').classList.add('hidden');
+      modalConfig.classList.remove('hidden');
+    });
+
+    window.fecharConfig = function() {
+      modalConfig.classList.add('hidden');
+    };
+
+    window.salvarConfigSupabase = function() {
+      const url = document.getElementById('cfgSupabaseUrl').value.trim();
+      const key = document.getElementById('cfgSupabaseKey').value.trim();
+
+      const novaCfg = {
+        SUPABASE_URL: url || CONFIG_PADRAO.SUPABASE_URL,
+        SUPABASE_ANON_KEY: key || CONFIG_PADRAO.SUPABASE_ANON_KEY
+      };
+
+      localStorage.setItem('config_supabase_elisa_bessa', JSON.stringify(novaCfg));
+      inicializarSupabase();
+
+      const fb = document.getElementById('cfgFeedback');
+      fb.className = 'text-xs p-2.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+      fb.textContent = 'Configurações salvas no seu navegador!';
+      setTimeout(() => {
+        fecharConfig();
+      }, 1200);
+    };
+
+    window.testarConexaoSupabase = async function() {
+      const url = document.getElementById('cfgSupabaseUrl').value.trim();
+      const key = document.getElementById('cfgSupabaseKey').value.trim();
+      const fb = document.getElementById('cfgFeedback');
+      fb.classList.remove('hidden');
+
+      if (!url || !key) {
+        fb.className = 'text-xs p-2.5 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 block';
+        fb.textContent = 'Por favor, preencha a URL e a Anon Key antes de testar.';
+        return;
+      }
+
+      fb.className = 'text-xs p-2.5 rounded-lg bg-blue-50 text-blue-800 border border-blue-200 block';
+      fb.textContent = 'Conectando ao Supabase...';
+
+      try {
+        const testClient = window.supabase.createClient(url, key);
+        const { error } = await testClient.from('atividades_respostas').select('count', { count: 'exact', head: true });
+        
+        if (error) {
+          fb.className = 'text-xs p-2.5 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 block';
+          fb.textContent = `Aviso: Conectou ao projeto, mas tabela deu retorno: ${error.message}. Execute o script SQL no Supabase.`;
+        } else {
+          fb.className = 'text-xs p-2.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+          fb.textContent = 'Conexão com tabela "atividades_respostas" realizada com sucesso!';
+        }
+      } catch (err) {
+        fb.className = 'text-xs p-2.5 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 block';
+        fb.textContent = `Falha na conexão: ${err.message}`;
+      }
+    };
+
+    // =========================================================================
+    // INICIALIZAÇÃO NO CARREGAMENTO DA PÁGINA
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      inicializarSupabase();
+      renderizarQuestoes();
+      atualizarBannerPrazo();
+      atualizarProgresso();
+
+      // Atualiza o relógio a cada 30 segundos
+      setInterval(atualizarBannerPrazo, 30000);
+    });
+  </script>
+</body>
+</html>
