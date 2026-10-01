@@ -30,6 +30,39 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
 
+  <!-- MODAL DE SENHA / ACESSO RESTRITO DO PROFESSOR -->
+  <div id="modalLoginProfessor" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-7 shadow-2xl border border-slate-200 text-center space-y-5 animate-scaleUp">
+      <div class="w-14 h-14 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center mx-auto shadow-inner">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span class="text-[11px] font-bold text-indigo-600 uppercase tracking-widest bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200">Acesso Restrito</span>
+        <h2 class="text-xl font-bold font-display text-slate-800 mt-2">Área do Docente</h2>
+        <p class="text-xs text-slate-500 mt-1">Informe a senha para acessar o painel de notas e controle de entregas.</p>
+      </div>
+
+      <form id="formLoginProfessor" onsubmit="autenticarProfessor(event)" class="space-y-3">
+        <div>
+          <input type="password" id="inputSenhaProfessor" placeholder="Digite sua senha..." autofocus required class="w-full text-center tracking-widest bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+        <div id="msgErroLogin" class="text-xs text-rose-600 font-semibold hidden">Senha incorreta. Tente novamente.</div>
+        <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all">
+          Acessar Painel
+        </button>
+      </form>
+      <div class="pt-2 border-t border-slate-100">
+        <a href="index.html" class="text-xs text-slate-400 hover:text-slate-600">← Voltar para a atividade</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO DO PAINEL PROTEGIDO -->
+  <div id="conteudoPainel" class="hidden flex-col min-h-screen flex-grow">
+
   <!-- CABEÇALHO DO PAINEL -->
   <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-md border-b border-indigo-900/50 sticky top-0 z-30">
     <div class="max-w-7xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between gap-4 flex-wrap">
@@ -54,13 +87,17 @@
       <div class="flex items-center gap-2">
         <a href="index.html" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all flex items-center gap-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-          Ver Atividade do Aluno
+          Ver Atividade
         </a>
         <button id="btnAtualizar" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow transition-all flex items-center gap-1.5">
           <svg id="iconeRefresh" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>
-          <span>Atualizar Dados</span>
+          <span>Atualizar</span>
+        </button>
+        <button id="btnSair" onclick="bloquearPainel()" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/30 text-rose-200 transition-all flex items-center gap-1" title="Sair do painel">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          Sair
         </button>
       </div>
     </div>
@@ -197,6 +234,7 @@
     </div>
 
   </main>
+  </div> <!-- fecha conteudoPainel -->
 
   <!-- MODAL: VISUALIZAR FOTO DOS CÁLCULOS DO ALUNO -->
   <div id="modalFotoAluno" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
@@ -569,6 +607,54 @@
       }, 3000);
     }
 
+    // =========================================================================
+    // CONTROLE DE ACESSO POR SENHA DO PROFESSOR
+    // =========================================================================
+    const SENHA_MESTRA = "natanael";
+
+    function verificarAutenticacao() {
+      const auth = sessionStorage.getItem('professor_autenticado');
+      const modal = document.getElementById('modalLoginProfessor');
+      const conteudo = document.getElementById('conteudoPainel');
+      const erro = document.getElementById('msgErroLogin');
+
+      if (auth === 'true') {
+        modal.classList.add('hidden');
+        conteudo.classList.remove('hidden');
+        conteudo.classList.add('flex');
+        carregarDados();
+      } else {
+        modal.classList.remove('hidden');
+        conteudo.classList.add('hidden');
+        conteudo.classList.remove('flex');
+        erro.classList.add('hidden');
+        document.getElementById('inputSenhaProfessor').value = '';
+        setTimeout(() => {
+          document.getElementById('inputSenhaProfessor').focus();
+        }, 150);
+      }
+    }
+
+    window.autenticarProfessor = function(e) {
+      if (e) e.preventDefault();
+      const senhaDigitada = document.getElementById('inputSenhaProfessor').value.trim();
+      const erro = document.getElementById('msgErroLogin');
+
+      if (senhaDigitada === SENHA_MESTRA || senhaDigitada === (localStorage.getItem('senha_professor_custom') || '')) {
+        sessionStorage.setItem('professor_autenticado', 'true');
+        erro.classList.add('hidden');
+        verificarAutenticacao();
+      } else {
+        erro.classList.remove('hidden');
+        document.getElementById('inputSenhaProfessor').focus();
+      }
+    };
+
+    window.bloquearPainel = function() {
+      sessionStorage.removeItem('professor_autenticado');
+      verificarAutenticacao();
+    };
+
     // Eventos de filtro
     document.getElementById('filtroTurma').addEventListener('change', renderizarTabela);
     document.getElementById('filtroStatus').addEventListener('change', renderizarTabela);
@@ -577,7 +663,7 @@
 
     // Inicialização
     window.addEventListener('DOMContentLoaded', () => {
-      carregarDados();
+      verificarAutenticacao();
     });
   </script>
 </body>
