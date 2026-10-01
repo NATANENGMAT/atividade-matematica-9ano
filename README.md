@@ -24,14 +24,19 @@ Aplicação web escolar moderna, responsiva (*Mobile-First*), desenvolvida em **
   - Preenchimento automático do nome oficial do estudante a partir da lista fornecida pela escola.
 - **20 Questões no Formato Oficial:**
   - **Parte 1 (Questões 1 a 10):** Classificação das Grandezas (Múltipla Escolha A, B, C, D, E).
-  - **Parte 2 (Questões 11 a 20):** Situações-problema com Regra de Três Simples.
-- **Anexo Obrigatório de Foto da Folha de Cálculos:**
-  - Acionamento direto da câmera do smartphone (`capture="environment"`) ou galeria.
-  - Pré-visualização com recurso de zoom em tela cheia.
-  - **Compressão automática no navegador (HTML5 Canvas):** Fotos pesadas (8 MB a 15 MB) são compactadas para ~800 KB preservando a nitidez total dos cálculos a caneta/lápis, evitando falhas em conexões 3G/4G.
+  - **Parte 2 (Questões 11 a 20):** Situações-problema com Regra de Três Simples com **anexo individual obrigatório de foto do cálculo em cada questão**.
+- **Anexo Individual de Fotos dos Cálculos (Questões 11 a 20):**
+  - Cada questão de cálculo possui seu próprio campo para tirar ou anexar foto (`capture="environment"` ou galeria).
+  - Pré-visualização com miniatura imediata e recurso de zoom.
+  - **Compressão automática no navegador (HTML5 Canvas):** Fotos pesadas (8 MB a 15 MB) são compactadas para ~800 KB preservando a nitidez total dos cálculos a caneta/lápis, evitando falhas em conexões móveis.
+- **Painel do Professor com Senha (`natanael`):**
+  - Acompanhamento em tempo real de quem já enviou e quem ainda não fez.
+  - Copiar para WhatsApp com 1 clique a lista nominal de pendentes.
+  - Galeria interativa de cálculos: navegação individual entre as fotos das questões 11 a 20 de cada aluno.
+  - Exportação de relatório completo em planilha CSV.
 - **Validações e Segurança:**
   - **Prazo Estrito:** Válido estritamente no dia **01/10/2026, das 08:00 às 23:59**. Fora desse intervalo o envio fica bloqueado, com contagem regressiva e aviso ao aluno.
-  - **Envio Único por Aluno:** O sistema impede envios duplicados, conferindo em tempo real se o estudante já enviou. O banco possui restrição `UNIQUE(turma, aluno)`.
+  - **Envio Único por Aluno:** O sistema impede envios duplicados, conferindo em tempo real se o estudante já enviou. O banco possui restrição `UNIQUE(turma, aluno_nome)`.
   - **Comprovante de Entrega Oficial:** Gera código de autenticação/protocolo único (ex: `CETI-20261001-91-ALICE-8A2F1`), data/hora, resumo de respostas e botão para imprimir/salvar em PDF.
 
 ---
@@ -41,9 +46,11 @@ Aplicação web escolar moderna, responsiva (*Mobile-First*), desenvolvida em **
 ```
 atividade-matematica-ceti/
 │
-├── index.html            # Aplicação Web completa (HTML5 + Tailwind CSS + JS + Supabase Client)
-├── supabase-schema.sql   # Script SQL com tabelas, RLS, Storage Bucket e View de notas automáticas
-└── README.md             # Guia completo de configuração e publicação
+├── index.html            # Aplicação Web dos Estudantes (20 questões + 10 fotos individuais + comprovante)
+├── professor.html        # Painel do Professor (senha 'natanael', pendentes WhatsApp, galeria de cálculos Q11-Q20, CSV)
+├── supabase-schema.sql   # Script SQL com tabela envios_atividade, RLS, Storage Bucket e View de notas
+├── publicar-github.js    # Script de publicação autônoma no GitHub Pages via API Node.js
+└── README.md             # Guia completo em português
 ```
 
 ---
