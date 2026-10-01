@@ -279,74 +279,34 @@
         <div id="containerParte2" class="space-y-6 pt-2"></div>
       </section>
 
-      <!-- ETAPA 4: UPLOAD DA FOTO DOS CÁLCULOS -->
+      <!-- ETAPA 4: RESUMO DAS FOTOS DOS CÁLCULOS (QUESTÕES 11 A 20) -->
       <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
         <div class="flex items-center space-x-3 mb-4 border-b border-slate-100 pb-3">
           <span class="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-sm shadow">
             4
           </span>
           <div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-800">Envio da Folha de Rascunho / Cálculos</h3>
-            <p class="text-xs text-slate-500">Anexo obrigatório contendo os cálculos manuscritos das questões 11 a 20.</p>
+            <h3 class="text-base sm:text-lg font-bold text-slate-800">Conferência das Fotos dos Cálculos (Questões 11 a 20)</h3>
+            <p class="text-xs text-slate-500">Cada questão da Parte 2 acima possui seu próprio campo de foto obrigatória.</p>
           </div>
         </div>
 
-        <div class="bg-emerald-50/50 border border-emerald-200 rounded-xl p-3.5 mb-4 text-xs text-emerald-800 flex items-start gap-2">
+        <div class="bg-emerald-50/60 border border-emerald-200 rounded-xl p-3.5 mb-4 text-xs text-emerald-800 flex items-start gap-2">
           <svg class="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
           <div>
-            <strong>Instrução da Foto:</strong> Escreva seu nome e turma com caneta no topo da folha de cálculos. Fotografe em local claro e enquadre toda a página para que os passos fiquem legíveis pelo professor.
+            <strong>Atenção:</strong> Você deve fotografar e anexar a resolução manuscrita de <strong>cada uma das 10 questões de regra de três</strong> (Q11 a Q20) no campo correspondente dentro do card de cada questão acima.
           </div>
         </div>
 
-        <!-- Área de Upload -->
-        <div class="space-y-4">
-          <input type="file" id="inputFoto" accept="image/*" capture="environment" class="hidden" />
-          
-          <div id="dropZone" class="border-2 border-dashed border-slate-300 hover:border-brand-500 rounded-2xl p-6 text-center cursor-pointer transition-all bg-slate-50/60 hover:bg-brand-50/40">
-            <div id="uploadPlaceholder" class="space-y-3">
-              <div class="w-14 h-14 mx-auto rounded-full bg-brand-100 text-brand-600 flex items-center justify-center shadow-inner">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
-              </div>
-              <div>
-                <p class="text-sm font-bold text-slate-700">Clique para Tirar Foto ou Escolher da Galeria</p>
-                <p class="text-xs text-slate-500 mt-1">Formatos aceitos: JPG, PNG, WEBP ou HEIC (Câmera do celular)</p>
-              </div>
-              <button type="button" class="inline-flex items-center px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-all pointer-events-none">
-                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-                Selecionar ou Fotografar
-              </button>
-            </div>
-
-            <!-- Preview da Foto Carregada -->
-            <div id="uploadPreviewContainer" class="hidden space-y-4">
-              <div class="relative inline-block max-w-full">
-                <img id="imgPreview" src="" alt="Folha de Cálculos" class="max-h-72 rounded-xl shadow-md border border-slate-200 mx-auto object-contain cursor-zoom-in" title="Clique para ampliar" />
-                <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[11px] font-bold px-2 py-0.5 rounded-full shadow">
-                  Foto Carregada ✓
-                </span>
-              </div>
-              <div class="flex items-center justify-center gap-2 flex-wrap">
-                <span id="nomeArquivoInfo" class="text-xs font-medium text-slate-600 bg-white px-3 py-1 rounded-lg border border-slate-200"></span>
-                <button type="button" id="btnAmpliarFoto" class="px-3 py-1.5 text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 rounded-lg border border-brand-200 transition-all flex items-center gap-1">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
-                  Ampliar
-                </button>
-                <button type="button" id="btnTrocarFoto" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 rounded-lg border border-slate-300 transition-all">
-                  Trocar Foto
-                </button>
-                <button type="button" id="btnRemoverFoto" class="px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg border border-red-200 transition-all">
-                  Remover
-                </button>
-              </div>
-            </div>
+        <!-- Grade de Status das 10 Fotos -->
+        <div>
+          <div class="flex items-center justify-between mb-3 text-xs font-bold text-slate-700">
+            <span>Status das 10 Fotos:</span>
+            <span id="contadorFotosResumo" class="text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">0 de 10 fotos anexadas</span>
           </div>
+          <div id="gridStatusFotos" class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs font-semibold"></div>
         </div>
       </section>
 
@@ -1076,6 +1036,47 @@
         });
 
         html += `</div>`;
+
+        // Se for questão da Parte 2 (Q11 a Q20), adiciona o campo obrigatório de foto do cálculo
+        if (q.parte === 2) {
+          html += `
+            <div class="mt-4 pt-3.5 border-t border-slate-200/90">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-indigo-900 flex items-center gap-1.5">
+                  <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  Foto do Cálculo da Questão ${q.id} <span class="text-red-500">*</span>
+                </span>
+                <span id="badgeFotoQ_${q.id}" class="text-[11px] font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
+                  Foto Pendente
+                </span>
+              </div>
+
+              <input type="file" id="inputFotoQ_${q.id}" accept="image/*" capture="environment" class="hidden" onchange="processarFotoQuestao(${q.id}, this)" />
+
+              <div id="boxUploadQ_${q.id}" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-white rounded-xl p-3 text-center cursor-pointer transition-all" onclick="document.getElementById('inputFotoQ_${q.id}').click()">
+                <div id="placeholderFotoQ_${q.id}" class="flex items-center justify-center gap-2 text-indigo-700 py-1">
+                  <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                  <span class="text-xs font-bold">Tirar Foto / Anexar Resolução da Questão ${q.id}</span>
+                </div>
+
+                <div id="previewContainerQ_${q.id}" class="hidden flex items-center justify-between gap-3 text-left">
+                  <div class="flex items-center gap-2.5">
+                    <img id="imgThumbQ_${q.id}" src="" alt="Cálculo Q${q.id}" class="w-12 h-12 object-cover rounded-lg border border-slate-200 shadow-sm cursor-zoom-in" onclick="event.stopPropagation(); abrirModalZoomFoto(this.src)" title="Clique para ampliar" />
+                    <div>
+                      <span class="text-xs font-bold text-emerald-700 block">Cálculo Anexado ✓</span>
+                      <span id="nomeArquivoQ_${q.id}" class="text-[11px] text-slate-500 font-mono"></span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
+                    <button type="button" onclick="document.getElementById('inputFotoQ_${q.id}').click()" class="text-[11px] px-2.5 py-1 font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300">Trocar</button>
+                    <button type="button" onclick="removerFotoQuestao(${q.id})" class="text-[11px] px-2 py-1 font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg border border-red-200">✕</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
         questaoCard.innerHTML = html;
 
         if (q.parte === 1) {
@@ -1223,78 +1224,115 @@
     }
 
     // =========================================================================
-    // UPLOAD E OTIMIZAÇÃO DE FOTO NO CLIENTE (CANVAS)
+    // UPLOAD E OTIMIZAÇÃO DAS 10 FOTOS DE CÁLCULOS (QUESTÕES 11 A 20)
     // =========================================================================
-    const inputFoto = document.getElementById('inputFoto');
-    const dropZone = document.getElementById('dropZone');
-    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
-    const uploadPreviewContainer = document.getElementById('uploadPreviewContainer');
-    const imgPreview = document.getElementById('imgPreview');
-    const nomeArquivoInfo = document.getElementById('nomeArquivoInfo');
+    let fotosQuestoes = {}; // { q11: File, q12: File, ..., q20: File }
+    let fotosOtimizadas = {}; // { q11: File, q12: File, ..., q20: File }
 
-    dropZone.addEventListener('click', (e) => {
-      // Se clicou nos botões de ampliar/trocar/remover, não dispara o input diretamente
-      if (e.target.closest('#btnAmpliarFoto') || e.target.closest('#btnRemoverFoto') || e.target.closest('#btnTrocarFoto')) {
+    window.processarFotoQuestao = async function(numQuestao, input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecione um arquivo de imagem válido.');
         return;
       }
-      inputFoto.click();
-    });
 
-    document.getElementById('btnTrocarFoto').addEventListener('click', () => inputFoto.click());
-    
-    document.getElementById('btnRemoverFoto').addEventListener('click', () => {
-      arquivoFotoSelecionado = null;
-      arquivoFotoOtimizado = null;
-      inputFoto.value = '';
-      uploadPlaceholder.classList.remove('hidden');
-      uploadPreviewContainer.classList.add('hidden');
-      imgPreview.src = '';
+      fotosQuestoes[`q${numQuestao}`] = file;
+
+      // Compactação automática no cliente para uploads ultrarrápidos no celular
+      try {
+        const otimizado = await comprimirImagemClient(file, 1600, 0.82);
+        fotosOtimizadas[`q${numQuestao}`] = otimizado;
+      } catch (err) {
+        fotosOtimizadas[`q${numQuestao}`] = file;
+      }
+
+      // Pré-visualização da miniatura
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const thumb = document.getElementById(`imgThumbQ_${numQuestao}`);
+        if (thumb) thumb.src = ev.target.result;
+
+        const placeholder = document.getElementById(`placeholderFotoQ_${numQuestao}`);
+        if (placeholder) placeholder.classList.add('hidden');
+
+        const previewContainer = document.getElementById(`previewContainerQ_${numQuestao}`);
+        if (previewContainer) previewContainer.classList.remove('hidden');
+
+        const badge = document.getElementById(`badgeFotoQ_${numQuestao}`);
+        if (badge) {
+          badge.className = 'text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full';
+          badge.textContent = 'Cálculo Anexado ✓';
+        }
+
+        const nomeArquivoEl = document.getElementById(`nomeArquivoQ_${numQuestao}`);
+        if (nomeArquivoEl) {
+          const sizeKB = (fotosOtimizadas[`q${numQuestao}`].size / 1024).toFixed(0);
+          nomeArquivoEl.textContent = `${sizeKB} KB pronto`;
+        }
+
+        renderizarQuadroStatusFotos();
+        atualizarProgresso();
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.removerFotoQuestao = function(numQuestao) {
+      delete fotosQuestoes[`q${numQuestao}`];
+      delete fotosOtimizadas[`q${numQuestao}`];
+
+      const input = document.getElementById(`inputFotoQ_${numQuestao}`);
+      if (input) input.value = '';
+
+      const placeholder = document.getElementById(`placeholderFotoQ_${numQuestao}`);
+      if (placeholder) placeholder.classList.remove('hidden');
+
+      const previewContainer = document.getElementById(`previewContainerQ_${numQuestao}`);
+      if (previewContainer) previewContainer.classList.add('hidden');
+
+      const badge = document.getElementById(`badgeFotoQ_${numQuestao}`);
+      if (badge) {
+        badge.className = 'text-[11px] font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full';
+        badge.textContent = 'Foto Pendente';
+      }
+
+      renderizarQuadroStatusFotos();
       atualizarProgresso();
-    });
+    };
 
-    document.getElementById('btnAmpliarFoto').addEventListener('click', () => {
-      if (imgPreview.src) {
-        document.getElementById('imgZoomTarget').src = imgPreview.src;
+    window.abrirModalZoomFoto = function(src) {
+      if (src) {
+        document.getElementById('imgZoomTarget').src = src;
         document.getElementById('modalZoom').classList.remove('hidden');
       }
-    });
+    };
 
     window.fecharZoom = function() {
       document.getElementById('modalZoom').classList.add('hidden');
     };
 
-    inputFoto.addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
+    function renderizarQuadroStatusFotos() {
+      const grid = document.getElementById('gridStatusFotos');
+      if (!grid) return;
+      grid.innerHTML = '';
+      let totalAnexadas = 0;
 
-      if (!file.type.startsWith('image/')) {
-        alert('Por favor, selecione um arquivo de imagem válido (foto).');
-        return;
+      for (let i = 11; i <= 20; i++) {
+        const anexada = !!fotosQuestoes[`q${i}`];
+        if (anexada) totalAnexadas++;
+
+        grid.innerHTML += `
+          <button type="button" onclick="document.getElementById('card-q${i}').scrollIntoView({behavior: 'smooth'})" class="p-2 rounded-xl border text-center transition-all flex items-center justify-between px-2.5 ${anexada ? 'bg-emerald-50 border-emerald-300 text-emerald-800' : 'bg-rose-50 border-rose-200 text-rose-700 hover:bg-rose-100/60'}">
+            <span class="font-bold">Q${i}</span>
+            <span class="text-[10px] font-bold ${anexada ? 'text-emerald-700' : 'text-rose-600'}">${anexada ? '✓ Anexada' : '✕ Falta Foto'}</span>
+          </button>
+        `;
       }
 
-      arquivoFotoSelecionado = file;
-
-      // Pré-visualização imediata
-      const reader = new FileReader();
-      reader.onload = async (ev) => {
-        imgPreview.src = ev.target.result;
-        uploadPlaceholder.classList.add('hidden');
-        uploadPreviewContainer.classList.remove('hidden');
-
-        // Compacta imagem para otimizar upload no celular
-        try {
-          arquivoFotoOtimizado = await comprimirImagemClient(file, 1920, 0.82);
-          const tamanhoKB = (arquivoFotoOtimizado.size / 1024).toFixed(0);
-          nomeArquivoInfo.textContent = `${file.name} (${tamanhoKB} KB pronto)`;
-        } catch (err) {
-          arquivoFotoOtimizado = file;
-          nomeArquivoInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
-        }
-
-        atualizarProgresso();
-      };
-      reader.readAsDataURL(file);
-    });
+      const contador = document.getElementById('contadorFotosResumo');
+      if (contador) contador.textContent = `${totalAnexadas} de 10 fotos anexadas`;
+    }
 
     // Função para redimensionar e compactar imagem via HTML5 Canvas
     function comprimirImagemClient(file, maxLargura, qualidade) {
@@ -1342,11 +1380,11 @@
         pendencias.push('Selecionar seu Nome oficial');
       }
 
-      // Verifica questões faltantes
+      // Verifica questões não respondidas
       const naoRespondidas = [];
       for (let i = 1; i <= 20; i++) {
         if (!respostasEstudante[`q${i}`]) {
-          naoRespondidas.push(i);
+          naoRespondidas.push(`Q${i}`);
         }
       }
 
@@ -1354,12 +1392,24 @@
         if (naoRespondidas.length === 20) {
           pendencias.push('Responder as 20 questões de múltipla escolha');
         } else {
-          pendencias.push(`Responder as questões restantes: ${naoRespondidas.map(n => `Q${n}`).join(', ')}`);
+          pendencias.push(`Responder as questões restantes: ${naoRespondidas.join(', ')}`);
         }
       }
 
-      if (!arquivoFotoSelecionado) {
-        pendencias.push('Anexar a foto obrigatória da folha de cálculos (Questões 11 a 20)');
+      // Verifica as 10 fotos individuais obrigatórias (Q11 a Q20)
+      const faltamFotos = [];
+      for (let i = 11; i <= 20; i++) {
+        if (!fotosQuestoes[`q${i}`]) {
+          faltamFotos.push(`Q${i}`);
+        }
+      }
+
+      if (faltamFotos.length > 0) {
+        if (faltamFotos.length === 10) {
+          pendencias.push('Anexar a foto do cálculo de cada uma das 10 questões da Parte 2 (Q11 a Q20)');
+        } else {
+          pendencias.push(`Falta anexar a foto dos cálculos nas seguintes questões: ${faltamFotos.join(', ')}`);
+        }
       }
 
       if (jaEnviouAnteriormente) {
@@ -1372,16 +1422,21 @@
     function atualizarProgresso() {
       const totalQuestoes = 20;
       const respondidas = Object.keys(respostasEstudante).length;
-      const percentual = Math.round((respondidas / totalQuestoes) * 100);
+      const totalFotos = 10;
+      const fotosAnexadas = Object.keys(fotosQuestoes).length;
+
+      // 20 questões + 10 fotos = 30 itens avaliados
+      const progressoTotal = Math.round(((respondidas + fotosAnexadas) / 30) * 100);
 
       // Barra de progresso flutuante
       const barra = document.getElementById('barraProgresso');
       const labelBarra = document.getElementById('labelBarraProgresso');
-      barra.style.width = `${percentual}%`;
-      labelBarra.textContent = `${respondidas}/${totalQuestoes} Questões (${percentual}%)`;
+      if (barra) barra.style.width = `${progressoTotal}%`;
+      if (labelBarra) labelBarra.textContent = `${respondidas}/20 Questões • ${fotosAnexadas}/10 Fotos (${progressoTotal}%)`;
 
       // Resumo final
-      document.getElementById('textoContadorResumo').textContent = `${respondidas} de ${totalQuestoes} respondidas`;
+      const txtResumo = document.getElementById('textoContadorResumo');
+      if (txtResumo) txtResumo.textContent = `${respondidas} de ${totalQuestoes} respondidas • ${fotosAnexadas}/10 fotos`;
 
       const pendencias = obterPendencias();
       const alerta = document.getElementById('alertaPendencias');
@@ -1398,7 +1453,6 @@
       const infoPrazo = verificarJanelaPrazo();
       const prazoPermitido = infoPrazo.permitido || modoTesteAtivo;
 
-      // Habilita ou desabilita o botão
       btnEnviar.disabled = pendencias.length > 0 || !prazoPermitido;
     }
 
@@ -1453,59 +1507,65 @@
       const protocolo = `CETI-20261001-${turmaCodigo}-${alunoPrimeiroNome}-${sufixoAleatorio}`;
 
       try {
-        // Passo 1: Otimização da imagem
-        msgLoadingStatus.textContent = 'Otimizando imagem dos cálculos...';
-        barraProgressoEnvio.style.width = '35%';
-        const arquivoParaUpload = arquivoFotoOtimizado || arquivoFotoSelecionado;
+        // Passo 1 e 2: Upload das 10 fotos individuais para o Supabase Storage
+        msgLoadingStatus.textContent = 'Enviando fotos dos cálculos (Questões 11 a 20)...';
+        barraProgressoEnvio.style.width = '20%';
 
-        let fotoUrlPublica = '';
+        const fotosUrlsMap = {};
+        const totalFotos = 10;
+        let fotosEnviadas = 0;
 
-        // Passo 2: Upload para o Supabase Storage (se configurado)
-        msgLoadingStatus.textContent = 'Enviando foto dos cálculos para o servidor escolar...';
-        barraProgressoEnvio.style.width = '65%';
+        for (let i = 11; i <= 20; i++) {
+          const arquivoParaUpload = fotosOtimizadas[`q${i}`] || fotosQuestoes[`q${i}`];
+          if (arquivoParaUpload && supabaseClient) {
+            msgLoadingStatus.textContent = `Enviando foto da Questão ${i} (${fotosEnviadas + 1} de 10)...`;
+            barraProgressoEnvio.style.width = `${20 + Math.round((fotosEnviadas / totalFotos) * 55)}%`;
+
+            const nomeArquivoLimpo = `${turmaCodigo}_${alunoPrimeiroNome}_q${i}_${Date.now()}.jpg`
+              .normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9._-]/g, "_");
+
+            const { data: uploadData, error: uploadError } = await supabaseClient.storage
+              .from('calculos')
+              .upload(nomeArquivoLimpo, arquivoParaUpload, {
+                cacheControl: '3600',
+                upsert: true
+              });
+
+            if (!uploadError && uploadData) {
+              const { data: publicUrlData } = supabaseClient.storage
+                .from('calculos')
+                .getPublicUrl(uploadData.path);
+              fotosUrlsMap[`q${i}`] = publicUrlData ? publicUrlData.publicUrl : '';
+            } else {
+              const cfg = obterConfiguracao();
+              fotosUrlsMap[`q${i}`] = `${cfg.SUPABASE_URL}/storage/v1/object/public/calculos/${nomeArquivoLimpo}`;
+            }
+          } else {
+            fotosUrlsMap[`q${i}`] = 'foto_anexada_local';
+          }
+          fotosEnviadas++;
+        }
+
+        // Passo 3: Gravação na tabela envios_atividade (ou atividades_respostas)
+        msgLoadingStatus.textContent = 'Gravando respostas na base de dados...';
+        barraProgressoEnvio.style.width = '85%';
+
+        // Separa as respostas das partes 1 e 2
+        const respP1 = {};
+        const respP2 = {};
+        for (let i = 1; i <= 10; i++) respP1[`q${i}`] = respostasEstudante[`q${i}`] || '';
+        for (let i = 11; i <= 20; i++) respP2[`q${i}`] = respostasEstudante[`q${i}`] || '';
+
+        const payloadEnvios = {
+          turma: turma,
+          aluno_nome: aluno,
+          respostas_parte1: respP1,
+          respostas_parte2: respP2,
+          fotos_urls: fotosUrlsMap, // JSONB com o mapa de fotos das 10 questões
+          protocolo: protocolo
+        };
 
         if (supabaseClient) {
-          const nomeArquivoLimpo = `${turmaCodigo}_${alunoPrimeiroNome}_${Date.now()}.jpg`
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9._-]/g, "_");
-
-          const { data: uploadData, error: uploadError } = await supabaseClient.storage
-            .from('calculos')
-            .upload(nomeArquivoLimpo, arquivoParaUpload, {
-              cacheControl: '3600',
-              upsert: true
-            });
-
-          if (uploadError) {
-            console.warn("Aviso no upload da imagem no Supabase:", uploadError.message);
-            // Fallback de URL pública estimada
-            const cfg = obterConfiguracao();
-            fotoUrlPublica = `${cfg.SUPABASE_URL}/storage/v1/object/public/calculos/${nomeArquivoLimpo}`;
-          } else {
-            const { data: publicUrlData } = supabaseClient.storage
-              .from('calculos')
-              .getPublicUrl(uploadData.path);
-            fotoUrlPublica = publicUrlData ? publicUrlData.publicUrl : '';
-          }
-
-          // Passo 3: Gravação na tabela envios_atividade (ou atividades_respostas)
-          msgLoadingStatus.textContent = 'Gravando respostas na base de dados...';
-          barraProgressoEnvio.style.width = '85%';
-
-          // Separa as respostas das partes 1 e 2
-          const respP1 = {};
-          const respP2 = {};
-          for (let i = 1; i <= 10; i++) respP1[`q${i}`] = respostasEstudante[`q${i}`] || '';
-          for (let i = 11; i <= 20; i++) respP2[`q${i}`] = respostasEstudante[`q${i}`] || '';
-
-          const payloadEnvios = {
-            turma: turma,
-            aluno_nome: aluno,
-            respostas_parte1: respP1,
-            respostas_parte2: respP2,
-            fotos_urls: [fotoUrlPublica || 'arquivo_anexado_com_sucesso'],
-            protocolo: protocolo
-          };
-
           let { error: insertError } = await supabaseClient
             .from('envios_atividade')
             .insert([payloadEnvios]);
@@ -1516,7 +1576,7 @@
               turma: turma,
               aluno: aluno,
               respostas: respostasEstudante,
-              foto_calculos_url: fotoUrlPublica || 'arquivo_anexado_com_sucesso',
+              foto_calculos_url: JSON.stringify(fotosUrlsMap),
               protocolo: protocolo,
               data_envio: dataFormatada,
               user_agent: navigator.userAgent
@@ -1533,16 +1593,15 @@
             }
           }
         } else {
-          // Modo offline / demonstração
           await new Promise(r => setTimeout(r, 1200));
-          fotoUrlPublica = imgPreview.src;
         }
 
         // Sucesso! Grava chave local de envio
         localStorage.setItem(`envio_${turma}_${aluno}`, JSON.stringify({
           protocolo,
           data: dataFormatada,
-          respostas: respostasEstudante
+          respostas: respostasEstudante,
+          fotos_urls: fotosUrlsMap
         }));
 
         barraProgressoEnvio.style.width = '100%';
@@ -1681,6 +1740,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       inicializarSupabase();
       renderizarQuestoes();
+      renderizarQuadroStatusFotos();
       atualizarBannerPrazo();
       atualizarProgresso();
 
