@@ -83,8 +83,8 @@ SELECT
     turma,
     aluno_nome,
     criado_em AS data_hora_envio,
-    fotos_urls->>0 AS foto_calculos_url,
-    
+    fotos_urls AS fotos_calculos,
+    fotos_urls->>'q11' AS foto_q11,
     (
      -- Parte 1 (Q1 a Q10)
      CASE WHEN respostas_parte1->>'q1' = 'B' THEN 1 ELSE 0 END +
