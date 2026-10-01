@@ -575,7 +575,7 @@
      * Caso o professor prefira configurar direto no arquivo ou através do modal de configurações.
      */
     const CONFIG_PADRAO = {
-      SUPABASE_URL: "https://jwmnvkcczayhqzeblyjl.supabase.co",
+      SUPABASE_URL: "https://caluzuxcgyzivmjobkqj.supabase.co",
       SUPABASE_ANON_KEY: "sb_publishable_PmIY1yelZilcGsIPT1ER_Q_FRkeObsY"
     };
 
@@ -1255,6 +1255,7 @@
     // =========================================================================
     let fotosQuestoes = {}; // { q11: File, q12: File, ..., q20: File }
     let fotosOtimizadas = {}; // { q11: File, q12: File, ..., q20: File }
+    let fotosBase64 = {}; // { q11: "data:image/jpeg;base64,...", ... }
 
     window.processarFotoQuestao = async function(numQuestao, input) {
       const file = input.files[0];
@@ -1275,11 +1276,14 @@
         fotosOtimizadas[`q${numQuestao}`] = file;
       }
 
-      // Pré-visualização da miniatura
+      // Pré-visualização da miniatura e geração do Base64
       const reader = new FileReader();
       reader.onload = (ev) => {
+        const base64Data = ev.target.result;
+        fotosBase64[`q${numQuestao}`] = base64Data;
+
         const thumb = document.getElementById(`imgThumbQ_${numQuestao}`);
-        if (thumb) thumb.src = ev.target.result;
+        if (thumb) thumb.src = base64Data;
 
         const placeholder = document.getElementById(`placeholderFotoQ_${numQuestao}`);
         if (placeholder) placeholder.classList.add('hidden');
@@ -1302,12 +1306,13 @@
         renderizarQuadroStatusFotos();
         atualizarProgresso();
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(fotosOtimizadas[`q${numQuestao}`] || file);
     };
 
     window.removerFotoQuestao = function(numQuestao) {
       delete fotosQuestoes[`q${numQuestao}`];
       delete fotosOtimizadas[`q${numQuestao}`];
+      delete fotosBase64[`q${numQuestao}`];
 
       const input = document.getElementById(`inputFotoQ_${numQuestao}`);
       if (input) input.value = '';
@@ -1545,6 +1550,8 @@
 
         for (let i = 11; i <= 20; i++) {
           const arquivoParaUpload = fotosOtimizadas[`q${i}`] || fotosQuestoes[`q${i}`];
+          let urlFotoFinal = '';
+
           if (arquivoParaUpload && supabaseClient) {
             msgLoadingStatus.textContent = `Enviando foto da Questão ${i} (${fotosEnviadas + 1} de 10)...`;
             barraProgressoEnvio.style.width = `${20 + Math.round((fotosEnviadas / totalFotos) * 55)}%`;
@@ -1552,25 +1559,34 @@
             const nomeArquivoLimpo = `${turmaCodigo}_${alunoPrimeiroNome}_q${i}_${Date.now()}.jpg`
               .normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9._-]/g, "_");
 
-            const { data: uploadData, error: uploadError } = await supabaseClient.storage
-              .from('calculos')
-              .upload(nomeArquivoLimpo, arquivoParaUpload, {
-                cacheControl: '3600',
-                upsert: true
-              });
-
-            if (!uploadError && uploadData) {
-              const { data: publicUrlData } = supabaseClient.storage
+            try {
+              const { data: uploadData, error: uploadError } = await supabaseClient.storage
                 .from('calculos')
-                .getPublicUrl(uploadData.path);
-              fotosUrlsMap[`q${i}`] = publicUrlData ? publicUrlData.publicUrl : '';
-            } else {
-              const cfg = obterConfiguracao();
-              fotosUrlsMap[`q${i}`] = `${cfg.SUPABASE_URL}/storage/v1/object/public/calculos/${nomeArquivoLimpo}`;
+                .upload(nomeArquivoLimpo, arquivoParaUpload, {
+                  cacheControl: '3600',
+                  upsert: true
+                });
+
+              if (!uploadError && uploadData) {
+                const { data: publicUrlData } = supabaseClient.storage
+                  .from('calculos')
+                  .getPublicUrl(uploadData.path);
+                urlFotoFinal = publicUrlData ? publicUrlData.publicUrl : '';
+              } else {
+                console.warn(`Aviso de upload Q${i} no Supabase Storage:`, uploadError);
+              }
+            } catch (errStorage) {
+              console.warn(`Erro no upload Q${i}:`, errStorage);
             }
-          } else {
-            fotosUrlsMap[`q${i}`] = 'foto_anexada_local';
           }
+
+          // Se não tiver gerado URL na nuvem (ou se for teste local), utiliza o Base64 DataURL
+          // Isso garante 100% que a foto NUNCA ficará com ícone quebrado!
+          if (!urlFotoFinal) {
+            urlFotoFinal = fotosBase64[`q${i}`] || '';
+          }
+
+          fotosUrlsMap[`q${i}`] = urlFotoFinal;
           fotosEnviadas++;
         }
 
